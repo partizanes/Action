@@ -1,33 +1,33 @@
-using namespace System;
+п»їusing namespace System;
 using namespace System::Reflection;
 using namespace System::Runtime::CompilerServices;
 using namespace System::Runtime::InteropServices;
 using namespace System::Security::Permissions;
 
 //
-// Общие сведения об этой сборке предоставляются следующим набором
-// атрибутов. Отредактируйте значения этих атрибутов, чтобы изменить
-// общие сведения об этой сборке.
+// РћР±С‰РёРµ СЃРІРµРґРµРЅРёСЏ РѕР± СЌС‚РѕР№ СЃР±РѕСЂРєРµ РїСЂРµРґРѕСЃС‚Р°РІР»СЏСЋС‚СЃСЏ СЃР»РµРґСѓСЋС‰РёРј РЅР°Р±РѕСЂРѕРј
+// Р°С‚СЂРёР±СѓС‚РѕРІ. РћС‚СЂРµРґР°РєС‚РёСЂСѓР№С‚Рµ Р·РЅР°С‡РµРЅРёСЏ СЌС‚РёС… Р°С‚СЂРёР±СѓС‚РѕРІ, С‡С‚РѕР±С‹ РёР·РјРµРЅРёС‚СЊ
+// РѕР±С‰РёРµ СЃРІРµРґРµРЅРёСЏ РѕР± СЌС‚РѕР№ СЃР±РѕСЂРєРµ.
 //
 [assembly:AssemblyTitleAttribute("Action")];
-[assembly:AssemblyDescriptionAttribute("")];
+[assembly:AssemblyDescriptionAttribute("by partizanes")];
 [assembly:AssemblyConfigurationAttribute("")];
-[assembly:AssemblyCompanyAttribute("mag41")];
+[assembly:AssemblyCompanyAttribute("from VP")];
 [assembly:AssemblyProductAttribute("Action")];
-[assembly:AssemblyCopyrightAttribute("Copyright (c) mag41 2012")];
+[assembly:AssemblyCopyrightAttribute("Copyright (c) partizanes 2012")];
 [assembly:AssemblyTrademarkAttribute("")];
 [assembly:AssemblyCultureAttribute("")];
 
 //
-// Сведения о версии сборки состоят из следующих четырех значений:
+// РЎРІРµРґРµРЅРёСЏ Рѕ РІРµСЂСЃРёРё СЃР±РѕСЂРєРё СЃРѕСЃС‚РѕСЏС‚ РёР· СЃР»РµРґСѓСЋС‰РёС… С‡РµС‚С‹СЂРµС… Р·РЅР°С‡РµРЅРёР№:
 //
-//      Основной номер версии
-//      Дополнительный номер версии
-//      Номер построения
-//      Редакция
+//      РћСЃРЅРѕРІРЅРѕР№ РЅРѕРјРµСЂ РІРµСЂСЃРёРё
+//      Р”РѕРїРѕР»РЅРёС‚РµР»СЊРЅС‹Р№ РЅРѕРјРµСЂ РІРµСЂСЃРёРё
+//      РќРѕРјРµСЂ РїРѕСЃС‚СЂРѕРµРЅРёСЏ
+//      Р РµРґР°РєС†РёСЏ
 //
-// Можно задать все значения или принять номер построения и номер редакции по умолчанию,
-// используя "*", как показано ниже:
+// РњРѕР¶РЅРѕ Р·Р°РґР°С‚СЊ РІСЃРµ Р·РЅР°С‡РµРЅРёСЏ РёР»Рё РїСЂРёРЅСЏС‚СЊ РЅРѕРјРµСЂ РїРѕСЃС‚СЂРѕРµРЅРёСЏ Рё РЅРѕРјРµСЂ СЂРµРґР°РєС†РёРё РїРѕ СѓРјРѕР»С‡Р°РЅРёСЋ,
+// РёСЃРїРѕР»СЊР·СѓСЏ "*", РєР°Рє РїРѕРєР°Р·Р°РЅРѕ РЅРёР¶Рµ:
 
 [assembly:AssemblyVersionAttribute("1.0.*")];
 

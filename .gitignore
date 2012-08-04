@@ -1,4 +1,4 @@
-# Compiled Object files
+﻿# Compiled Object files
 *.slo
 *.lo
 *.o
@@ -13,3 +13,5 @@
 
 /debug
 /release
+*.sdf
+*.suo

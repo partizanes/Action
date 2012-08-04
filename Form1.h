@@ -1,4 +1,4 @@
-#pragma once
+п»ї#pragma once
 
 namespace Action {
 
@@ -11,7 +11,7 @@ namespace Action {
 	using namespace MySql::Data::MySqlClient;
 
 	/// <summary>
-	/// Сводка для Form1
+	/// РЎРІРѕРґРєР° РґР»СЏ Form1
 	/// </summary>
 	public ref class Form1 : public System::Windows::Forms::Form
 	{
@@ -20,13 +20,13 @@ namespace Action {
 		{
 			InitializeComponent();
 			//
-			//TODO: добавьте код конструктора
+			//TODO: РґРѕР±Р°РІСЊС‚Рµ РєРѕРґ РєРѕРЅСЃС‚СЂСѓРєС‚РѕСЂР°
 			//
 		}
 
 	protected:
 		/// <summary>
-		/// Освободить все используемые ресурсы.
+		/// РћСЃРІРѕР±РѕРґРёС‚СЊ РІСЃРµ РёСЃРїРѕР»СЊР·СѓРµРјС‹Рµ СЂРµСЃСѓСЂСЃС‹.
 		/// </summary>
 		~Form1()
 		{
@@ -70,14 +70,14 @@ namespace Action {
 
 	private:
 		/// <summary>
-		/// Требуется переменная конструктора.
+		/// РўСЂРµР±СѓРµС‚СЃСЏ РїРµСЂРµРјРµРЅРЅР°СЏ РєРѕРЅСЃС‚СЂСѓРєС‚РѕСЂР°.
 		/// </summary>
 
 
 #pragma region Windows Form Designer generated code
 		/// <summary>
-		/// Обязательный метод для поддержки конструктора - не изменяйте
-		/// содержимое данного метода при помощи редактора кода.
+		/// РћР±СЏР·Р°С‚РµР»СЊРЅС‹Р№ РјРµС‚РѕРґ РґР»СЏ РїРѕРґРґРµСЂР¶РєРё РєРѕРЅСЃС‚СЂСѓРєС‚РѕСЂР° - РЅРµ РёР·РјРµРЅСЏР№С‚Рµ
+		/// СЃРѕРґРµСЂР¶РёРјРѕРµ РґР°РЅРЅРѕРіРѕ РјРµС‚РѕРґР° РїСЂРё РїРѕРјРѕС‰Рё СЂРµРґР°РєС‚РѕСЂР° РєРѕРґР°.
 		/// </summary>
 		void InitializeComponent(void)
 		{
@@ -117,7 +117,7 @@ namespace Action {
 			this->bar_label->Name = L"bar_label";
 			this->bar_label->Size = System::Drawing::Size(149, 16);
 			this->bar_label->TabIndex = 0;
-			this->bar_label->Text = L"Штрих-код(12цифр)";
+			this->bar_label->Text = L"РЁС‚СЂРёС…-РєРѕРґ(12С†РёС„СЂ)";
 			// 
 			// true_bar_label
 			// 
@@ -128,7 +128,7 @@ namespace Action {
 			this->true_bar_label->Name = L"true_bar_label";
 			this->true_bar_label->Size = System::Drawing::Size(149, 16);
 			this->true_bar_label->TabIndex = 1;
-			this->true_bar_label->Text = L"Штрих-код(13цифр)";
+			this->true_bar_label->Text = L"РЁС‚СЂРёС…-РєРѕРґ(13С†РёС„СЂ)";
 			// 
 			// name_label
 			// 
@@ -139,7 +139,7 @@ namespace Action {
 			this->name_label->Name = L"name_label";
 			this->name_label->Size = System::Drawing::Size(119, 16);
 			this->name_label->TabIndex = 2;
-			this->name_label->Text = L"Наименование";
+			this->name_label->Text = L"РќР°РёРјРµРЅРѕРІР°РЅРёРµ";
 			// 
 			// price_old_label
 			// 
@@ -150,7 +150,7 @@ namespace Action {
 			this->price_old_label->Name = L"price_old_label";
 			this->price_old_label->Size = System::Drawing::Size(102, 16);
 			this->price_old_label->TabIndex = 3;
-			this->price_old_label->Text = L"Старая Цена";
+			this->price_old_label->Text = L"РЎС‚Р°СЂР°СЏ Р¦РµРЅР°";
 			// 
 			// price_new_label
 			// 
@@ -161,7 +161,7 @@ namespace Action {
 			this->price_new_label->Name = L"price_new_label";
 			this->price_new_label->Size = System::Drawing::Size(95, 16);
 			this->price_new_label->TabIndex = 4;
-			this->price_new_label->Text = L"Новая Цена";
+			this->price_new_label->Text = L"РќРѕРІР°СЏ Р¦РµРЅР°";
 			// 
 			// bar_box
 			// 
@@ -228,7 +228,7 @@ namespace Action {
 			this->send_button->Name = L"send_button";
 			this->send_button->Size = System::Drawing::Size(137, 30);
 			this->send_button->TabIndex = 3;
-			this->send_button->Text = L"Отправить";
+			this->send_button->Text = L"РћС‚РїСЂР°РІРёС‚СЊ";
 			this->send_button->UseVisualStyleBackColor = true;
 			this->send_button->Click += gcnew System::EventHandler(this, &Form1::send_button_Click);
 			// 
@@ -239,7 +239,7 @@ namespace Action {
 			this->clean_button->Size = System::Drawing::Size(65, 30);
 			this->clean_button->TabIndex = 0;
 			this->clean_button->TabStop = false;
-			this->clean_button->Text = L"Очистить";
+			this->clean_button->Text = L"РћС‡РёСЃС‚РёС‚СЊ";
 			this->clean_button->UseVisualStyleBackColor = true;
 			this->clean_button->Click += gcnew System::EventHandler(this, &Form1::clean_button_Click);
 			// 
@@ -281,7 +281,7 @@ namespace Action {
 			this->exit_button->Size = System::Drawing::Size(65, 30);
 			this->exit_button->TabIndex = 14;
 			this->exit_button->TabStop = false;
-			this->exit_button->Text = L"Выход";
+			this->exit_button->Text = L"Р’С‹С…РѕРґ";
 			this->exit_button->UseVisualStyleBackColor = true;
 			this->exit_button->Click += gcnew System::EventHandler(this, &Form1::exit_button_Click);
 			// 
@@ -292,7 +292,7 @@ namespace Action {
 			this->hide_button->Size = System::Drawing::Size(65, 30);
 			this->hide_button->TabIndex = 15;
 			this->hide_button->TabStop = false;
-			this->hide_button->Text = L"Свернуть";
+			this->hide_button->Text = L"РЎРІРµСЂРЅСѓС‚СЊ";
 			this->hide_button->UseVisualStyleBackColor = true;
 			this->hide_button->Click += gcnew System::EventHandler(this, &Form1::hide_button_Click);
 			// 
@@ -334,7 +334,7 @@ namespace Action {
 			this->label1->Name = L"label1";
 			this->label1->Size = System::Drawing::Size(56, 15);
 			this->label1->TabIndex = 18;
-			this->label1->Text = L"Начало";
+			this->label1->Text = L"РќР°С‡Р°Р»Рѕ";
 			// 
 			// label2
 			// 
@@ -345,7 +345,7 @@ namespace Action {
 			this->label2->Name = L"label2";
 			this->label2->Size = System::Drawing::Size(79, 15);
 			this->label2->TabIndex = 19;
-			this->label2->Text = L"Окончание";
+			this->label2->Text = L"РћРєРѕРЅС‡Р°РЅРёРµ";
 			// 
 			// s_status_timer
 			// 

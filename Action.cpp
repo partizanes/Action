@@ -1,4 +1,4 @@
-#include "Form1.h"
+п»ї#include "Form1.h"
 #include <windows.h>
 
 using namespace Action;
@@ -19,13 +19,13 @@ Void Form1::Form1_Load(System::Object^  sender, System::EventArgs^  e)
 {
 	if(mysqlcheck())
 	{
-		status_label->Text = "Онлайн";
+		status_label->Text = "РћРЅР»Р°Р№РЅ";
 		status_label->ForeColor = Color::Green ;
 	}
 	else
 	{
 		status_label->ForeColor = Color::Red ;
-		status_label->Text = "Оффлайн";
+		status_label->Text = "РћС„С„Р»Р°Р№РЅ";
 	}
 
 	send_label->Text = "";
@@ -68,8 +68,8 @@ Void Form1::old_price_box_KeyDown(System::Object^  sender, System::Windows::Form
 	{
 		if(old_price_box->TextLength < 3)
 		{
-			String^ message = "Оставить пустое значение старой цены?";
-			String^ caption = "Внимание";
+			String^ message = "РћСЃС‚Р°РІРёС‚СЊ РїСѓСЃС‚РѕРµ Р·РЅР°С‡РµРЅРёРµ СЃС‚Р°СЂРѕР№ С†РµРЅС‹?";
+			String^ caption = "Р’РЅРёРјР°РЅРёРµ";
 
 			MessageBoxButtons buttons = MessageBoxButtons::YesNo;
 			System::Windows::Forms::DialogResult result;
@@ -106,6 +106,14 @@ Void Form1::new_price_box_KeyDown(System::Object^  sender, System::Windows::Form
 
 Void Form1::send_button_Click(System::Object^  sender, System::EventArgs^  e)
 {
+	if(bar_box->Text == "" || true_bar_box->Text == "" || name_box->Text == "" || true_bar_box->Text == "" || new_price_box->Text == "")
+	{
+		send_label->ForeColor = Color::Red ;
+		send_label->Text = "РћС‚РєР»РѕРЅРµРЅРѕ";
+		bar_box->Focus();
+		return;	
+	}
+
  	String^ connStr = String::Format("server={0};uid={1};pwd={2};database={3};",
  		"192.168.1.11", "root", "fallen", "action");
  
@@ -128,7 +136,7 @@ Void Form1::send_button_Click(System::Object^  sender, System::EventArgs^  e)
 		MessageBox::Show("Exception: " + exc->Message);
 
 		send_label->ForeColor = Color::Red ;
-		send_label->Text = "Отклонено";
+		send_label->Text = "РћС‚РєР»РѕРЅРµРЅРѕ";
 		send_button->Focus();
 	}
  	try
@@ -144,7 +152,7 @@ Void Form1::send_button_Click(System::Object^  sender, System::EventArgs^  e)
 		MessageBox::Show("Exception: " + exc->Message);
 
 		send_label->ForeColor = Color::Red ;
-		send_label->Text = "Отклонено";
+		send_label->Text = "РћС‚РєР»РѕРЅРµРЅРѕ";
 		send_button->Focus();
 	}
  	finally
@@ -153,7 +161,7 @@ Void Form1::send_button_Click(System::Object^  sender, System::EventArgs^  e)
  			reader->Close();
 
 		send_label->ForeColor = Color::Green ;
-		send_label->Text = "Успешно";
+		send_label->Text = "РЈСЃРїРµС€РЅРѕ";
 
 		s_status_timer->Enabled = true;
 
@@ -251,7 +259,7 @@ Void Form1::query(String^ bar)
 		else
 		{
 			send_label->ForeColor = Color::Red;
-			send_label->Text = "Не найдено!";
+			send_label->Text = "РќРµ РЅР°Р№РґРµРЅРѕ!";
 		}
 
 	}
