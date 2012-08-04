@@ -1,4 +1,2 @@
 Action
 ======
-
-Action
