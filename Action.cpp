@@ -49,7 +49,6 @@ Void Form1::bar_box_TextChanged(System::Object^  sender, System::EventArgs^  e)
 	if (bar_box->TextLength == bar_box->MaxLength)
 	{
 		query(bar_box->Text);
-		old_price_box->Focus();
 	}
 }
 
@@ -58,7 +57,12 @@ Void Form1::bar_box_KeyDown_1(System::Object^  sender, System::Windows::Forms::K
 	if (e->KeyCode == Keys::Enter || e->KeyCode == Keys::Right || e->KeyCode == Keys::Down ) 
 	{
 		query(bar_box->Text);
-		old_price_box->Focus();
+	}
+
+	if (e->KeyCode == Keys::Escape)
+	{
+		clean_button->PerformClick();
+		bar_box->Focus();
 	}
 }
 
@@ -89,6 +93,17 @@ Void Form1::old_price_box_KeyDown(System::Object^  sender, System::Windows::Form
 		else
 			new_price_box->Focus();
 	}
+
+	if (e->KeyCode == Keys::Up || e->KeyCode == Keys::Left )
+	{
+		bar_box->Focus();
+	}
+
+	if (e->KeyCode == Keys::Escape)
+	{
+		clean_button->PerformClick();
+		bar_box->Focus();
+	}
 }
 
 Void Form1::new_price_box_KeyDown(System::Object^  sender, System::Windows::Forms::KeyEventArgs^  e)
@@ -102,6 +117,17 @@ Void Form1::new_price_box_KeyDown(System::Object^  sender, System::Windows::Form
 		else
 			send_button->Focus();
 	}
+
+	if (e->KeyCode == Keys::Up || e->KeyCode == Keys::Left )
+	{
+		old_price_box->Focus();
+	}
+
+	if (e->KeyCode == Keys::Escape)
+	{
+		clean_button->PerformClick();
+		bar_box->Focus();
+	}
 }
 
 Void Form1::send_button_Click(System::Object^  sender, System::EventArgs^  e)
@@ -114,9 +140,14 @@ Void Form1::send_button_Click(System::Object^  sender, System::EventArgs^  e)
 		return;	
 	}
 
- 	String^ connStr = String::Format("server={0};uid={1};pwd={2};database={3};",
- 		"192.168.1.11", "root", "fallen", "action");
- 
+    char buf[50];
+    boolean stat = true;
+
+    GetPrivateProfileString("SETTINGS", "srv_local","192.168.1.11",buf,sizeof(buf),SystemStringToChar(Environment::CurrentDirectory+"\\config.ini"));
+
+    String^ connStr = String::Format("server={0};uid={1};pwd={2};database={3};",
+    CharToSystemString(buf), "root", "fallen", "action");
+
  	conn = gcnew MySqlConnection(connStr);
  
  	MySqlDataReader^ reader = nullptr;
@@ -131,6 +162,7 @@ Void Form1::send_button_Click(System::Object^  sender, System::EventArgs^  e)
 
 		conn->Close();
 	}
+
 	catch (Exception^ exc)
 	{
 		MessageBox::Show("Exception: " + exc->Message);
@@ -139,14 +171,26 @@ Void Form1::send_button_Click(System::Object^  sender, System::EventArgs^  e)
 		send_label->Text = "Отклонено";
 		send_button->Focus();
 	}
+
  	try
  	{
 		conn->Open();
 
-		cmd = gcnew MySqlCommand("INSERT INTO `action`.`action_price`(`barcode`,`price_old`,`price_new`,`start_action`,`stop_action`) VALUES ( '"+true_bar_box->Text+"','"+old_price_box->Text+"','"+new_price_box->Text+"','"+dateTimePicker1->Text+"','"+dateTimePicker2->Text+"')", conn);
+		int i;
+
+		if (active_check->Checked == true)
+			i = 1 ;
+		else
+			i = 0 ;
+
+		if(old_price_box->Text == "")
+			old_price_box->Text = "0";
+
+		cmd = gcnew MySqlCommand("INSERT INTO `action`.`action_price`(`barcode`,`price_old`,`price_new`,`start_action`,`stop_action`,`active`) VALUES ( '"+true_bar_box->Text+"','"+old_price_box->Text+"','"+new_price_box->Text+"','"+dateTimePicker1->Text+"','"+dateTimePicker2->Text+"','"+i+"')", conn);
 
 		cmd->ExecuteNonQuery();
  	}
+
 	catch (Exception^ exc)
 	{
 		MessageBox::Show("Exception: " + exc->Message);
@@ -154,7 +198,9 @@ Void Form1::send_button_Click(System::Object^  sender, System::EventArgs^  e)
 		send_label->ForeColor = Color::Red ;
 		send_label->Text = "Отклонено";
 		send_button->Focus();
+		stat = false;
 	}
+
  	finally
  	{
  		if (reader != nullptr)
@@ -162,6 +208,11 @@ Void Form1::send_button_Click(System::Object^  sender, System::EventArgs^  e)
 
 		send_label->ForeColor = Color::Green ;
 		send_label->Text = "Успешно";
+
+		if(stat)
+			listBox1->Items->Add (bar_box->Text+"  "+true_bar_box->Text+"  "+name_box->Text+"  "+old_price_box->Text+"  "+new_price_box->Text+"  "+dateTimePicker1->Text+"  "+dateTimePicker2->Text+"  "+"Успешно");
+		else
+			listBox1->Items->Add (bar_box->Text+"  "+true_bar_box->Text+"  "+name_box->Text+"  "+old_price_box->Text+"  "+new_price_box->Text+"  "+dateTimePicker1->Text+"  "+dateTimePicker2->Text+"  "+"Отклонено");
 
 		s_status_timer->Enabled = true;
 
@@ -176,8 +227,12 @@ Void Form1::send_button_Click(System::Object^  sender, System::EventArgs^  e)
 
 Boolean Form1::mysqlcheck()
 {
+	char buf[50];
+
+	GetPrivateProfileString("SETTINGS", "srv_global","192.168.1.100",buf,sizeof(buf),SystemStringToChar(Environment::CurrentDirectory+"\\config.ini"));
+
 	String^ connStr = String::Format("server={0};uid={1};pwd={2};database={3};",
-		"192.168.1.100", "admin", "12345", "ukmserver");
+		CharToSystemString(buf), "admin", "12345", "ukmserver");
 
 	conn = gcnew MySqlConnection(connStr);
 
@@ -188,11 +243,13 @@ Boolean Form1::mysqlcheck()
 		conn->Open();
 		return true;
 	}
+
 	catch (Exception^ exc)
 	{
 		MessageBox::Show("Exception: " + exc->Message);
 		return false;
 	}
+
 	finally
 	{
 		if (reader != nullptr)
@@ -230,8 +287,12 @@ Void Form1::clean_button_Click(System::Object^  sender, System::EventArgs^  e)
 
 Void Form1::query(String^ bar)
 {
+	char buf[50];
+
+	GetPrivateProfileString("SETTINGS", "srv_global","192.168.1.100",buf,sizeof(buf),SystemStringToChar(Environment::CurrentDirectory+"\\config.ini"));
+
 	String^ connStr = String::Format("server={0};uid={1};pwd={2};database={3};",
-		"192.168.1.100", "admin", "12345", "ukmserver");
+		CharToSystemString(buf), "admin", "12345", "ukmserver");
 
 	conn = gcnew MySqlConnection(connStr);
 
@@ -255,11 +316,16 @@ Void Form1::query(String^ bar)
 			name_box->Text = reader->GetString(0);
 			true_bar_box->Text = reader->GetString(2);
 			new_price_box->Text = Convert::ToString(reader->GetInt32(1));
+			old_price_box->Focus();
 		}
 		else
 		{
 			send_label->ForeColor = Color::Red;
 			send_label->Text = "Не найдено!";
+
+			clean_button->PerformClick();
+			bar_box->Text = "";
+			bar_box->Focus();
 		}
 
 	}
@@ -271,6 +337,48 @@ Void Form1::query(String^ bar)
 	{
 		if (reader != nullptr)
 			reader->Close();
+	}
+}
+
+Void Form1::send_button_Enter(System::Object^  sender, System::EventArgs^  e)
+{
+	if(name_box->Text == "" || bar_box->Text == "" || true_bar_box->Text == "" || new_price_box->Text == "" || old_price_box->Text == "" || active_check->Checked == false)
+	{
+		send_button->ForeColor = Color::Red ;
+	}
+	else
+	{
+		send_button->ForeColor = Color::Green ;
+	}
+}
+
+Void Form1::send_button_KeyDown(System::Object^  sender, System::Windows::Forms::KeyEventArgs^  e)
+{
+	if (e->KeyCode == Keys::Up || e->KeyCode == Keys::Left )
+	{
+		new_price_box->Focus();
+	}
+
+	if (e->KeyCode == Keys::Right || e->KeyCode == Keys::Down )
+	{
+		send_button->PerformClick();
+	}
+
+	if (e->KeyCode == Keys::Multiply || e->KeyCode == Keys::Add)
+	{
+		if(active_check->Checked == true)
+		{
+			active_check->Checked = false;
+		}
+		else
+		{
+			active_check->Checked = true;
+		}
+	}
+
+	if (e->KeyCode == Keys::Escape)
+	{
+		clean_button->PerformClick();
 	}
 }
 

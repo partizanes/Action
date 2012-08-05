@@ -66,6 +66,7 @@ namespace Action {
 	private: System::Windows::Forms::Label^  label1;
 	private: System::Windows::Forms::Label^  label2;
 	private: System::Windows::Forms::Timer^  s_status_timer;
+	private: System::Windows::Forms::CheckBox^  active_check;
 	private: MySqlCommand^	cmd;
 
 	private:
@@ -106,6 +107,7 @@ namespace Action {
 			this->label1 = (gcnew System::Windows::Forms::Label());
 			this->label2 = (gcnew System::Windows::Forms::Label());
 			this->s_status_timer = (gcnew System::Windows::Forms::Timer(this->components));
+			this->active_check = (gcnew System::Windows::Forms::CheckBox());
 			this->SuspendLayout();
 			// 
 			// bar_label
@@ -113,6 +115,7 @@ namespace Action {
 			this->bar_label->AutoSize = true;
 			this->bar_label->Font = (gcnew System::Drawing::Font(L"Microsoft Sans Serif", 9.75F, System::Drawing::FontStyle::Bold, System::Drawing::GraphicsUnit::Point, 
 				static_cast<System::Byte>(204)));
+			this->bar_label->ForeColor = System::Drawing::SystemColors::GradientInactiveCaption;
 			this->bar_label->Location = System::Drawing::Point(47, 67);
 			this->bar_label->Name = L"bar_label";
 			this->bar_label->Size = System::Drawing::Size(149, 16);
@@ -124,6 +127,7 @@ namespace Action {
 			this->true_bar_label->AutoSize = true;
 			this->true_bar_label->Font = (gcnew System::Drawing::Font(L"Microsoft Sans Serif", 9.75F, System::Drawing::FontStyle::Bold, System::Drawing::GraphicsUnit::Point, 
 				static_cast<System::Byte>(204)));
+			this->true_bar_label->ForeColor = System::Drawing::SystemColors::GradientInactiveCaption;
 			this->true_bar_label->Location = System::Drawing::Point(47, 142);
 			this->true_bar_label->Name = L"true_bar_label";
 			this->true_bar_label->Size = System::Drawing::Size(149, 16);
@@ -135,6 +139,7 @@ namespace Action {
 			this->name_label->AutoSize = true;
 			this->name_label->Font = (gcnew System::Drawing::Font(L"Microsoft Sans Serif", 9.75F, System::Drawing::FontStyle::Bold, System::Drawing::GraphicsUnit::Point, 
 				static_cast<System::Byte>(204)));
+			this->name_label->ForeColor = System::Drawing::SystemColors::GradientInactiveCaption;
 			this->name_label->Location = System::Drawing::Point(411, 67);
 			this->name_label->Name = L"name_label";
 			this->name_label->Size = System::Drawing::Size(119, 16);
@@ -146,6 +151,7 @@ namespace Action {
 			this->price_old_label->AutoSize = true;
 			this->price_old_label->Font = (gcnew System::Drawing::Font(L"Microsoft Sans Serif", 9.75F, System::Drawing::FontStyle::Bold, System::Drawing::GraphicsUnit::Point, 
 				static_cast<System::Byte>(204)));
+			this->price_old_label->ForeColor = System::Drawing::SystemColors::GradientInactiveCaption;
 			this->price_old_label->Location = System::Drawing::Point(329, 142);
 			this->price_old_label->Name = L"price_old_label";
 			this->price_old_label->Size = System::Drawing::Size(102, 16);
@@ -157,6 +163,7 @@ namespace Action {
 			this->price_new_label->AutoSize = true;
 			this->price_new_label->Font = (gcnew System::Drawing::Font(L"Microsoft Sans Serif", 9.75F, System::Drawing::FontStyle::Bold, System::Drawing::GraphicsUnit::Point, 
 				static_cast<System::Byte>(204)));
+			this->price_new_label->ForeColor = System::Drawing::SystemColors::GradientInactiveCaption;
 			this->price_new_label->Location = System::Drawing::Point(516, 142);
 			this->price_new_label->Name = L"price_new_label";
 			this->price_new_label->Size = System::Drawing::Size(95, 16);
@@ -224,6 +231,8 @@ namespace Action {
 			// 
 			// send_button
 			// 
+			this->send_button->Font = (gcnew System::Drawing::Font(L"Microsoft Sans Serif", 8.25F, System::Drawing::FontStyle::Bold, System::Drawing::GraphicsUnit::Point, 
+				static_cast<System::Byte>(204)));
 			this->send_button->Location = System::Drawing::Point(560, 375);
 			this->send_button->Name = L"send_button";
 			this->send_button->Size = System::Drawing::Size(137, 30);
@@ -231,6 +240,8 @@ namespace Action {
 			this->send_button->Text = L"Отправить";
 			this->send_button->UseVisualStyleBackColor = true;
 			this->send_button->Click += gcnew System::EventHandler(this, &Form1::send_button_Click);
+			this->send_button->Enter += gcnew System::EventHandler(this, &Form1::send_button_Enter);
+			this->send_button->KeyDown += gcnew System::Windows::Forms::KeyEventHandler(this, &Form1::send_button_KeyDown);
 			// 
 			// clean_button
 			// 
@@ -245,10 +256,15 @@ namespace Action {
 			// 
 			// listBox1
 			// 
+			this->listBox1->Font = (gcnew System::Drawing::Font(L"Microsoft Sans Serif", 9.75F, System::Drawing::FontStyle::Regular, System::Drawing::GraphicsUnit::Point, 
+				static_cast<System::Byte>(204)));
+			this->listBox1->ForeColor = System::Drawing::Color::FromArgb(static_cast<System::Int32>(static_cast<System::Byte>(64)), static_cast<System::Int32>(static_cast<System::Byte>(64)), 
+				static_cast<System::Int32>(static_cast<System::Byte>(64)));
 			this->listBox1->FormattingEnabled = true;
+			this->listBox1->ItemHeight = 16;
 			this->listBox1->Location = System::Drawing::Point(25, 256);
 			this->listBox1->Name = L"listBox1";
-			this->listBox1->Size = System::Drawing::Size(672, 108);
+			this->listBox1->Size = System::Drawing::Size(672, 100);
 			this->listBox1->TabIndex = 0;
 			this->listBox1->TabStop = false;
 			// 
@@ -330,6 +346,7 @@ namespace Action {
 			this->label1->AutoSize = true;
 			this->label1->Font = (gcnew System::Drawing::Font(L"Microsoft Sans Serif", 9, System::Drawing::FontStyle::Bold, System::Drawing::GraphicsUnit::Point, 
 				static_cast<System::Byte>(204)));
+			this->label1->ForeColor = System::Drawing::SystemColors::GradientInactiveCaption;
 			this->label1->Location = System::Drawing::Point(34, 216);
 			this->label1->Name = L"label1";
 			this->label1->Size = System::Drawing::Size(56, 15);
@@ -341,6 +358,7 @@ namespace Action {
 			this->label2->AutoSize = true;
 			this->label2->Font = (gcnew System::Drawing::Font(L"Microsoft Sans Serif", 9, System::Drawing::FontStyle::Bold, System::Drawing::GraphicsUnit::Point, 
 				static_cast<System::Byte>(204)));
+			this->label2->ForeColor = System::Drawing::SystemColors::GradientInactiveCaption;
 			this->label2->Location = System::Drawing::Point(310, 218);
 			this->label2->Name = L"label2";
 			this->label2->Size = System::Drawing::Size(79, 15);
@@ -352,11 +370,27 @@ namespace Action {
 			this->s_status_timer->Interval = 1000;
 			this->s_status_timer->Tick += gcnew System::EventHandler(this, &Form1::s_status_timer_Tick);
 			// 
+			// active_check
+			// 
+			this->active_check->AutoSize = true;
+			this->active_check->Checked = true;
+			this->active_check->CheckState = System::Windows::Forms::CheckState::Checked;
+			this->active_check->Font = (gcnew System::Drawing::Font(L"Microsoft Sans Serif", 8.25F, System::Drawing::FontStyle::Bold, System::Drawing::GraphicsUnit::Point, 
+				static_cast<System::Byte>(204)));
+			this->active_check->ForeColor = System::Drawing::SystemColors::GradientInactiveCaption;
+			this->active_check->Location = System::Drawing::Point(613, 214);
+			this->active_check->Name = L"active_check";
+			this->active_check->Size = System::Drawing::Size(84, 17);
+			this->active_check->TabIndex = 20;
+			this->active_check->Text = L"Активный";
+			this->active_check->UseVisualStyleBackColor = true;
+			// 
 			// Form1
 			// 
 			this->AutoScaleDimensions = System::Drawing::SizeF(6, 13);
 			this->AutoScaleMode = System::Windows::Forms::AutoScaleMode::Font;
 			this->ClientSize = System::Drawing::Size(719, 424);
+			this->Controls->Add(this->active_check);
 			this->Controls->Add(this->label2);
 			this->Controls->Add(this->label1);
 			this->Controls->Add(this->dateTimePicker2);
@@ -380,7 +414,10 @@ namespace Action {
 			this->Controls->Add(this->bar_label);
 			this->FormBorderStyle = System::Windows::Forms::FormBorderStyle::FixedToolWindow;
 			this->Icon = (cli::safe_cast<System::Drawing::Icon^  >(resources->GetObject(L"$this.Icon")));
+			this->MaximizeBox = false;
+			this->MinimizeBox = false;
 			this->Name = L"Form1";
+			this->StartPosition = System::Windows::Forms::FormStartPosition::CenterScreen;
 			this->Text = L"Action";
 			this->FormClosing += gcnew System::Windows::Forms::FormClosingEventHandler(this, &Form1::Form1_FormClosing);
 			this->FormClosed += gcnew System::Windows::Forms::FormClosedEventHandler(this, &Form1::Form1_FormClosed);
@@ -390,6 +427,7 @@ namespace Action {
 
 		}
 #pragma endregion
+
 
 private: System::Boolean Form1::mysqlcheck();
 private: System::Void Form1_Load(System::Object^  sender, System::EventArgs^  e);
@@ -415,6 +453,8 @@ private: System::Void s_status_timer_Tick(System::Object^  sender, System::Event
 private: System::Void Form1_FormClosing(System::Object^  sender, System::Windows::Forms::FormClosingEventArgs^  e) {
 			 Action->Visible = false;
 		 }
+private: System::Void send_button_Enter(System::Object^  sender, System::EventArgs^  e);
+private: System::Void send_button_KeyDown(System::Object^  sender, System::Windows::Forms::KeyEventArgs^  e);
 };
 }
 
