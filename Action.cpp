@@ -2,6 +2,7 @@
 #include <windows.h>
 
 using namespace Action;
+using namespace System::IO;
 using namespace System::Runtime::InteropServices;
 
 [STAThreadAttribute]
@@ -156,7 +157,10 @@ Void Form1::send_button_Click(System::Object^  sender, System::EventArgs^  e)
 	{
 		conn->Open();
 
-		cmd = gcnew MySqlCommand("DELETE FROM `action`.`action_price` WHERE `barcode`='"+true_bar_box->Text+"'", conn);
+		if(bar_box->TextLength == 5)
+			cmd = gcnew MySqlCommand("DELETE FROM `action`.`action_price` WHERE `barcode`='"+bar_box->Text+"'", conn);
+		else
+			cmd = gcnew MySqlCommand("DELETE FROM `action`.`action_price` WHERE `barcode`='"+true_bar_box->Text+"'", conn);
 
 		cmd->ExecuteNonQuery();
 
@@ -185,8 +189,10 @@ Void Form1::send_button_Click(System::Object^  sender, System::EventArgs^  e)
 
 		if(old_price_box->Text == "")
 			old_price_box->Text = "0";
-
-		cmd = gcnew MySqlCommand("INSERT INTO `action`.`action_price`(`barcode`,`price_old`,`price_new`,`start_action`,`stop_action`,`active`) VALUES ( '"+true_bar_box->Text+"','"+old_price_box->Text+"','"+new_price_box->Text+"','"+dateTimePicker1->Text+"','"+dateTimePicker2->Text+"','"+i+"')", conn);
+		if(bar_box->TextLength == 5)
+			cmd = gcnew MySqlCommand("INSERT INTO `action`.`action_price`(`barcode`,`price_old`,`price_new`,`start_action`,`stop_action`,`active`) VALUES ( '"+bar_box->Text+"','"+old_price_box->Text+"','"+new_price_box->Text+"','"+dateTimePicker1->Text+"','"+dateTimePicker2->Text+"','"+i+"')", conn);
+		else
+			cmd = gcnew MySqlCommand("INSERT INTO `action`.`action_price`(`barcode`,`price_old`,`price_new`,`start_action`,`stop_action`,`active`) VALUES ( '"+true_bar_box->Text+"','"+old_price_box->Text+"','"+new_price_box->Text+"','"+dateTimePicker1->Text+"','"+dateTimePicker2->Text+"','"+i+"')", conn);
 
 		cmd->ExecuteNonQuery();
  	}
@@ -210,10 +216,15 @@ Void Form1::send_button_Click(System::Object^  sender, System::EventArgs^  e)
 		send_label->Text = "Успешно";
 
 		if(stat)
+		{
+			log_write(bar_box->Text+"  "+true_bar_box->Text+"  "+name_box->Text+"  "+old_price_box->Text+"  "+new_price_box->Text+"  "+dateTimePicker1->Text+"  "+dateTimePicker2->Text+"  "+"Успешно","query","Action");
 			listBox1->Items->Add (bar_box->Text+"  "+true_bar_box->Text+"  "+name_box->Text+"  "+old_price_box->Text+"  "+new_price_box->Text+"  "+dateTimePicker1->Text+"  "+dateTimePicker2->Text+"  "+"Успешно");
+		}
 		else
+		{
+			log_write(bar_box->Text+"  "+true_bar_box->Text+"  "+name_box->Text+"  "+old_price_box->Text+"  "+new_price_box->Text+"  "+dateTimePicker1->Text+"  "+dateTimePicker2->Text+"  "+"Отклонено","query","Action");
 			listBox1->Items->Add (bar_box->Text+"  "+true_bar_box->Text+"  "+name_box->Text+"  "+old_price_box->Text+"  "+new_price_box->Text+"  "+dateTimePicker1->Text+"  "+dateTimePicker2->Text+"  "+"Отклонено");
-
+		}
 		s_status_timer->Enabled = true;
 
 		bar_box->Text = "";
@@ -396,4 +407,18 @@ String^ Form1::CharToSystemString(char* ch)
 		str+=wchar_t(ch[i]);
 	}
 	return str;
+}
+
+Void Form1::log_write(String^ str,String^ reason,String^ logname)
+{
+	String^ EntryTime = (gcnew DateTime())->Now.ToLongTimeString();
+	String^ EntryDate = (gcnew DateTime())->Today.ToShortDateString();
+	if(!Directory::Exists(Environment::CurrentDirectory+"/log/"))
+	{
+		Directory::CreateDirectory((Environment::CurrentDirectory+"/log/"));
+	}
+	String^ fileName = "log/"+logname+".log";
+	StreamWriter^ sw = gcnew StreamWriter(fileName,true,System::Text::Encoding::UTF8);
+	sw->WriteLine("["+EntryDate+"]["+EntryTime+"]["+reason+"]"+" "+str);
+	sw->Close();
 }

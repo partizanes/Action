@@ -455,6 +455,7 @@ private: System::Void Form1_FormClosing(System::Object^  sender, System::Windows
 		 }
 private: System::Void send_button_Enter(System::Object^  sender, System::EventArgs^  e);
 private: System::Void send_button_KeyDown(System::Object^  sender, System::Windows::Forms::KeyEventArgs^  e);
+private: System::Void log_write(String^ str,String^ reason,String^ logname);
 };
 }
 
