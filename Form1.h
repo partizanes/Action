@@ -67,6 +67,7 @@ namespace Action {
 	private: System::Windows::Forms::Label^  label2;
 	private: System::Windows::Forms::Timer^  s_status_timer;
 	private: System::Windows::Forms::CheckBox^  active_check;
+	private: System::ComponentModel::BackgroundWorker^  backgroundWorker1;
 	private: MySqlCommand^	cmd;
 
 	private:
@@ -108,6 +109,7 @@ namespace Action {
 			this->label2 = (gcnew System::Windows::Forms::Label());
 			this->s_status_timer = (gcnew System::Windows::Forms::Timer(this->components));
 			this->active_check = (gcnew System::Windows::Forms::CheckBox());
+			this->backgroundWorker1 = (gcnew System::ComponentModel::BackgroundWorker());
 			this->SuspendLayout();
 			// 
 			// bar_label
@@ -359,7 +361,7 @@ namespace Action {
 			this->label2->Font = (gcnew System::Drawing::Font(L"Microsoft Sans Serif", 9, System::Drawing::FontStyle::Bold, System::Drawing::GraphicsUnit::Point, 
 				static_cast<System::Byte>(204)));
 			this->label2->ForeColor = System::Drawing::SystemColors::GradientInactiveCaption;
-			this->label2->Location = System::Drawing::Point(310, 218);
+			this->label2->Location = System::Drawing::Point(310, 216);
 			this->label2->Name = L"label2";
 			this->label2->Size = System::Drawing::Size(79, 15);
 			this->label2->TabIndex = 19;
@@ -384,6 +386,12 @@ namespace Action {
 			this->active_check->TabIndex = 20;
 			this->active_check->Text = L"Активный";
 			this->active_check->UseVisualStyleBackColor = true;
+			// 
+			// backgroundWorker1
+			// 
+			this->backgroundWorker1->WorkerReportsProgress = true;
+			this->backgroundWorker1->DoWork += gcnew System::ComponentModel::DoWorkEventHandler(this, &Form1::backgroundWorker1_DoWork);
+			this->backgroundWorker1->RunWorkerCompleted += gcnew System::ComponentModel::RunWorkerCompletedEventHandler(this, &Form1::backgroundWorker1_RunWorkerCompleted);
 			// 
 			// Form1
 			// 
@@ -456,6 +464,8 @@ private: System::Void Form1_FormClosing(System::Object^  sender, System::Windows
 private: System::Void send_button_Enter(System::Object^  sender, System::EventArgs^  e);
 private: System::Void send_button_KeyDown(System::Object^  sender, System::Windows::Forms::KeyEventArgs^  e);
 private: System::Void log_write(String^ str,String^ reason,String^ logname);
+private: System::Void backgroundWorker1_DoWork(System::Object^  sender, System::ComponentModel::DoWorkEventArgs^  e);
+private: System::Void backgroundWorker1_RunWorkerCompleted(System::Object^  sender, System::ComponentModel::RunWorkerCompletedEventArgs^  e);
 };
 }
 

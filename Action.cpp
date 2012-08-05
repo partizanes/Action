@@ -18,16 +18,8 @@ int main(array<System::String ^> ^args)
 
 Void Form1::Form1_Load(System::Object^  sender, System::EventArgs^  e)
 {
-	if(mysqlcheck())
-	{
-		status_label->Text = "Онлайн";
-		status_label->ForeColor = Color::Green ;
-	}
-	else
-	{
-		status_label->ForeColor = Color::Red ;
-		status_label->Text = "Оффлайн";
-	}
+	status_label->Text = "";
+	backgroundWorker1->RunWorkerAsync();
 
 	send_label->Text = "";
 	dateTimePicker1->Format = DateTimePickerFormat::Custom;
@@ -421,4 +413,20 @@ Void Form1::log_write(String^ str,String^ reason,String^ logname)
 	StreamWriter^ sw = gcnew StreamWriter(fileName,true,System::Text::Encoding::UTF8);
 	sw->WriteLine("["+EntryDate+"]["+EntryTime+"]["+reason+"]"+" "+str);
 	sw->Close();
+}
+
+Void Form1::backgroundWorker1_DoWork(System::Object^  sender, System::ComponentModel::DoWorkEventArgs^  e)
+{
+	if(mysqlcheck())
+		status_label->ForeColor = Color::Green ;
+	else
+		status_label->ForeColor = Color::Red ;
+
+}
+Void Form1::backgroundWorker1_RunWorkerCompleted(System::Object^  sender, System::ComponentModel::RunWorkerCompletedEventArgs^  e)
+{
+	if(status_label->ForeColor == Color::Green)
+		status_label->Text = "Онлайн";
+	else
+		status_label->Text = "Оффлайн";
 }
