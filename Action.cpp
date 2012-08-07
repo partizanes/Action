@@ -1,5 +1,9 @@
 ﻿#include "Form1.h"
+#include "Form2.h"
 #include <windows.h>
+
+int xOffset, yOffset;
+bool isMouseDown = false;
 
 using namespace Action;
 using namespace System::IO;
@@ -12,7 +16,8 @@ int main(array<System::String ^> ^args)
 	Application::EnableVisualStyles();
 	Application::SetCompatibleTextRenderingDefault(false); 
 
-	Application::Run(gcnew Form1());
+	//Application::Run(gcnew Form1());
+	Application::Run(gcnew Form2());
 	return 0;
 }
 
@@ -423,10 +428,228 @@ Void Form1::backgroundWorker1_DoWork(System::Object^  sender, System::ComponentM
 		status_label->ForeColor = Color::Red ;
 
 }
+
 Void Form1::backgroundWorker1_RunWorkerCompleted(System::Object^  sender, System::ComponentModel::RunWorkerCompletedEventArgs^  e)
 {
 	if(status_label->ForeColor == Color::Green)
 		status_label->Text = "Онлайн";
 	else
 		status_label->Text = "Оффлайн";
+}
+
+Void Form2::pass_textbox_Enter(System::Object^  sender, System::EventArgs^  e)
+{
+	if(login_textbox->TextLength < 3)
+	{
+		set_msg_on_timer("Сначало логин!");
+		login_textbox->Focus();
+	}
+	else
+	{
+		check_save_login->Visible = true;
+	}
+}
+
+Void Form2::login_button_Enter(System::Object^  sender, System::EventArgs^  e)
+{
+		 check_save_login->Visible = true;
+}
+
+Void Form2::login_button_Leave(System::Object^  sender, System::EventArgs^  e)
+{
+		 check_save_login->Visible = false;
+}
+
+Void Form2::pass_textbox_Leave(System::Object^  sender, System::EventArgs^  e)
+{
+	check_save_login->Visible = false;
+}
+
+Void Form2::login_textbox_KeyDown(System::Object^  sender, System::Windows::Forms::KeyEventArgs^  e)
+{
+	if (e->KeyCode == Keys::Right || e->KeyCode == Keys::Down || e->KeyCode == Keys::Enter || e->KeyCode == Keys::Tab )
+	{
+		if(login_textbox->TextLength < 3)
+		{
+			Random^ rnd=gcnew Random();
+			int i = rnd->Next(3);
+			switch (i)
+			{
+			case 0:
+				set_msg_on_timer("Логин кто вводить будет?");
+				break;
+			case 1:
+				set_msg_on_timer("Так дело не пойдёт...Логин?");
+				break;
+			case 2:
+				set_msg_on_timer("Так сложно представиться?");
+				break;
+			default:
+				break;
+			}
+		}
+		else
+		{
+			check_save_login->Visible = true;
+			pass_textbox->Focus();
+
+			Random^ rnd=gcnew Random();
+			int i = rnd->Next(3);
+			switch (i)
+			{
+			case 0:
+				set_msg_on_timer("Очень приятно ;) я Action!");
+				break;
+			case 1:
+				set_msg_on_timer("Привет "+login_textbox->Text +"!");
+				break;
+			case 2:
+				set_msg_on_timer("Мне скучно!Давай поиграем!");
+				break;
+			default:
+				break;
+			}
+		}
+	}
+
+	if (e->KeyCode == Keys::Escape)
+	{
+		Application::Exit();
+	}
+}
+
+Void Form2::pass_textbox_KeyDown(System::Object^  sender, System::Windows::Forms::KeyEventArgs^  e)
+{
+	if (e->KeyCode == Keys::Right || e->KeyCode == Keys::Down || e->KeyCode == Keys::Enter || e->KeyCode == Keys::Tab)
+	{
+		if(pass_textbox->TextLength < 3)
+		{
+			Random^ rnd=gcnew Random();
+			int i = rnd->Next(3);
+
+			switch (i)
+			{
+			case 0:
+				set_msg_on_timer("Издеваетесь?без пароля не пущу");
+				break;
+			case 1:
+				set_msg_on_timer("Забыли?Не верю!");
+				break;
+			case 2:
+				set_msg_on_timer("Увы,без пароля нельзя!");
+				break;
+			default:
+				break;
+			}
+		}
+		else
+		{
+			login_button->Focus();
+		}
+	}
+
+	if (e->KeyCode == Keys::Left || e->KeyCode == Keys::Up)
+	{
+		login_textbox->Focus();
+	}
+
+	if (e->KeyCode == Keys::Escape)
+	{
+		Application::Exit();
+	}
+}
+
+Void Form2::login_button_KeyDown(System::Object^  sender, System::Windows::Forms::KeyEventArgs^  e)
+{
+	if (e->KeyCode == Keys::Left || e->KeyCode == Keys::Up)
+	{
+		pass_textbox->Focus();
+	}
+	if (e->KeyCode == Keys::Escape)
+	{
+		Application::Exit();
+	}
+}
+
+Void Form2::set_msg_on_timer(String^ text)
+{
+	msg_label_timer->Interval = 3000;
+	msg_label_timer->Enabled = true;
+	msg_label->Text = text;
+}
+
+Void Form2::msg_label_timer_Tick(System::Object^  sender, System::EventArgs^  e)
+{
+	msg_label_timer->Enabled = false;
+	msg_label->Text = "";
+}
+
+Void Form2::Form2_MouseDown(System::Object^  sender, System::Windows::Forms::MouseEventArgs^  e)
+{
+	if (e->Button == Windows::Forms::MouseButtons::Left)
+	{
+		xOffset = - e->X - SystemInformation::FrameBorderSize.Width;
+		yOffset = - e->Y - SystemInformation::FrameBorderSize.Height;
+		mouseOffset = System::Drawing::Point(xOffset, yOffset);
+		isMouseDown = true;
+	}
+}
+Void Form2::Form2_MouseMove(System::Object^  sender, System::Windows::Forms::MouseEventArgs^  e)
+{
+	if(isMouseDown)
+	{
+		Point mousePos = Control::MousePosition;
+		mousePos.Offset(mouseOffset.X, mouseOffset.Y);
+		Location = mousePos;
+	}
+}
+Void Form2::Form2_MouseUp(System::Object^  sender, System::Windows::Forms::MouseEventArgs^  e)
+{
+	isMouseDown = false;
+}
+Void Form2::name_label_MouseDown(System::Object^  sender, System::Windows::Forms::MouseEventArgs^  e)
+		 {
+			 if (e->Button == Windows::Forms::MouseButtons::Left)
+			 {
+				 xOffset = - e->X - name_label->Location.X;
+				 yOffset = - e->Y - name_label->Location.Y;
+				 mouseOffset = System::Drawing::Point(xOffset, yOffset);
+				 isMouseDown = true;
+			 }
+		 }
+Void Form2::name_label_MouseMove(System::Object^  sender, System::Windows::Forms::MouseEventArgs^  e)
+		 {
+			 if(isMouseDown)
+			 {
+				 Point mousePos = Control::MousePosition;
+				 mousePos.Offset(mouseOffset.X, mouseOffset.Y);
+				 Location = mousePos;
+			 }
+		 }
+Void Form2::name_label_MouseUp(System::Object^  sender, System::Windows::Forms::MouseEventArgs^  e)
+		 {
+			 isMouseDown = false;
+		 }
+Void Form2::login_panel_MouseDown(System::Object^  sender, System::Windows::Forms::MouseEventArgs^  e)
+{
+	if (e->Button == Windows::Forms::MouseButtons::Left)
+	{
+		xOffset = - e->X - login_panel->Location.X;
+		yOffset = - e->Y - login_panel->Location.Y;
+		mouseOffset = System::Drawing::Point(xOffset, yOffset);
+		isMouseDown = true;
+	}
+}
+Void Form2::login_panel_MouseMove(System::Object^  sender, System::Windows::Forms::MouseEventArgs^  e)
+{
+	if(isMouseDown)
+	{
+		Point mousePos = Control::MousePosition;
+		mousePos.Offset(mouseOffset.X, mouseOffset.Y);
+		Location = mousePos;
+	}
+}
+Void Form2::login_panel_MouseUp(System::Object^  sender, System::Windows::Forms::MouseEventArgs^  e)
+{
+	isMouseDown = false;
 }
