@@ -1,4 +1,4 @@
-#pragma once
+п»ї#pragma once
 
 namespace Action {
 
@@ -8,25 +8,18 @@ namespace Action {
 	using namespace System::Windows::Forms;
 	using namespace System::Data;
 	using namespace System::Drawing;
+    using namespace MySql::Data::MySqlClient;
 
-	/// <summary>
-	/// Сводка для MyForm
-	/// </summary>
+
 	public ref class Form2 : public System::Windows::Forms::Form
 	{
 	public:
 		Form2(void)
 		{
 			InitializeComponent();
-			//
-			//TODO: добавьте код конструктора
-			//
 		}
 
 	protected:
-		/// <summary>
-		/// Освободить все используемые ресурсы.
-		/// </summary>
 		~Form2()
 		{
 			if (components)
@@ -40,34 +33,27 @@ namespace Action {
 	private: Point mouseOffset;
 	protected: 
 
-	protected: 
-
-
 	private: System::Windows::Forms::Label^  pass_label;
 	private: System::Windows::Forms::Panel^  login_panel;
-
-
 	private: System::Windows::Forms::Button^  login_button;
 	private: System::Windows::Forms::CheckBox^  check_save_login;
 	private: System::Windows::Forms::Label^  name_label;
 	private: System::Windows::Forms::Label^  ver_label;
 	private: System::Windows::Forms::Label^  msg_label;
 	private: System::Windows::Forms::Timer^  msg_label_timer;
-
 	private: System::ComponentModel::IContainer^  components;
+	private: MySqlConnection^	conn;
+	private: System::Windows::Forms::Label^  exe_label;
+	private: System::Windows::Forms::Timer^  msg_exe_timer;
 
-
-
+	private: MySqlCommand^	cmd;
 	private:
-		/// <summary>
-		/// Требуется переменная конструктора.
-		/// </summary>
 
 
 #pragma region Windows Form Designer generated code
 		/// <summary>
-		/// Обязательный метод для поддержки конструктора - не изменяйте
-		/// содержимое данного метода при помощи редактора кода.
+		/// РћР±СЏР·Р°С‚РµР»СЊРЅС‹Р№ РјРµС‚РѕРґ РґР»СЏ РїРѕРґРґРµСЂР¶РєРё РєРѕРЅСЃС‚СЂСѓРєС‚РѕСЂР° - РЅРµ РёР·РјРµРЅСЏР№С‚Рµ
+		/// СЃРѕРґРµСЂР¶РёРјРѕРµ РґР°РЅРЅРѕРіРѕ РјРµС‚РѕРґР° РїСЂРё РїРѕРјРѕС‰Рё СЂРµРґР°РєС‚РѕСЂР° РєРѕРґР°.
 		/// </summary>
 		void InitializeComponent(void)
 		{
@@ -84,6 +70,8 @@ namespace Action {
 			this->ver_label = (gcnew System::Windows::Forms::Label());
 			this->msg_label = (gcnew System::Windows::Forms::Label());
 			this->msg_label_timer = (gcnew System::Windows::Forms::Timer(this->components));
+			this->exe_label = (gcnew System::Windows::Forms::Label());
+			this->msg_exe_timer = (gcnew System::Windows::Forms::Timer(this->components));
 			this->login_panel->SuspendLayout();
 			this->SuspendLayout();
 			// 
@@ -123,7 +111,7 @@ namespace Action {
 			this->login_label->Name = L"login_label";
 			this->login_label->Size = System::Drawing::Size(55, 18);
 			this->login_label->TabIndex = 0;
-			this->login_label->Text = L"Логин";
+			this->login_label->Text = L"Р›РѕРіРёРЅ";
 			// 
 			// pass_label
 			// 
@@ -136,7 +124,7 @@ namespace Action {
 			this->pass_label->Name = L"pass_label";
 			this->pass_label->Size = System::Drawing::Size(67, 18);
 			this->pass_label->TabIndex = 0;
-			this->pass_label->Text = L"Пароль";
+			this->pass_label->Text = L"РџР°СЂРѕР»СЊ";
 			// 
 			// login_panel
 			// 
@@ -167,11 +155,11 @@ namespace Action {
 			this->login_button->Name = L"login_button";
 			this->login_button->Size = System::Drawing::Size(153, 23);
 			this->login_button->TabIndex = 3;
-			this->login_button->Text = L"Войти";
+			this->login_button->Text = L"Р’РѕР№С‚Рё";
 			this->login_button->UseVisualStyleBackColor = true;
+			this->login_button->Click += gcnew System::EventHandler(this, &Form2::login_button_Click);
 			this->login_button->Enter += gcnew System::EventHandler(this, &Form2::login_button_Enter);
 			this->login_button->KeyDown += gcnew System::Windows::Forms::KeyEventHandler(this, &Form2::login_button_KeyDown);
-			this->login_button->Leave += gcnew System::EventHandler(this, &Form2::login_button_Leave);
 			// 
 			// check_save_login
 			// 
@@ -184,9 +172,10 @@ namespace Action {
 			this->check_save_login->Name = L"check_save_login";
 			this->check_save_login->Size = System::Drawing::Size(92, 19);
 			this->check_save_login->TabIndex = 2;
-			this->check_save_login->Text = L"Запомнить";
+			this->check_save_login->Text = L"Р—Р°РїРѕРјРЅРёС‚СЊ";
 			this->check_save_login->UseVisualStyleBackColor = false;
 			this->check_save_login->Visible = false;
+			this->check_save_login->KeyDown += gcnew System::Windows::Forms::KeyEventHandler(this, &Form2::check_save_login_KeyDown);
 			// 
 			// name_label
 			// 
@@ -234,6 +223,22 @@ namespace Action {
 			this->msg_label_timer->Interval = 3000;
 			this->msg_label_timer->Tick += gcnew System::EventHandler(this, &Form2::msg_label_timer_Tick);
 			// 
+			// exe_label
+			// 
+			this->exe_label->AutoEllipsis = true;
+			this->exe_label->AutoSize = true;
+			this->exe_label->BackColor = System::Drawing::Color::Transparent;
+			this->exe_label->ForeColor = System::Drawing::Color::DodgerBlue;
+			this->exe_label->Location = System::Drawing::Point(22, 400);
+			this->exe_label->Name = L"exe_label";
+			this->exe_label->Size = System::Drawing::Size(0, 13);
+			this->exe_label->TabIndex = 0;
+			// 
+			// msg_exe_timer
+			// 
+			this->msg_exe_timer->Interval = 5000;
+			this->msg_exe_timer->Tick += gcnew System::EventHandler(this, &Form2::msg_exe_timer_Tick);
+			// 
 			// Form2
 			// 
 			this->AutoScaleDimensions = System::Drawing::SizeF(6, 13);
@@ -243,6 +248,7 @@ namespace Action {
 			this->BackgroundImage = (cli::safe_cast<System::Drawing::Image^  >(resources->GetObject(L"$this.BackgroundImage")));
 			this->BackgroundImageLayout = System::Windows::Forms::ImageLayout::Stretch;
 			this->ClientSize = System::Drawing::Size(719, 424);
+			this->Controls->Add(this->exe_label);
 			this->Controls->Add(this->msg_label);
 			this->Controls->Add(this->ver_label);
 			this->Controls->Add(this->name_label);
@@ -257,6 +263,7 @@ namespace Action {
 			this->Text = L"Action";
 			this->TransparencyKey = System::Drawing::Color::FromArgb(static_cast<System::Int32>(static_cast<System::Byte>(64)), static_cast<System::Int32>(static_cast<System::Byte>(0)), 
 				static_cast<System::Int32>(static_cast<System::Byte>(0)));
+			this->Load += gcnew System::EventHandler(this, &Form2::LastLogin);
 			this->MouseDown += gcnew System::Windows::Forms::MouseEventHandler(this, &Form2::Form2_MouseDown);
 			this->MouseMove += gcnew System::Windows::Forms::MouseEventHandler(this, &Form2::Form2_MouseMove);
 			this->MouseUp += gcnew System::Windows::Forms::MouseEventHandler(this, &Form2::Form2_MouseUp);
@@ -284,7 +291,13 @@ private: System::Void pass_textbox_KeyDown(System::Object^  sender, System::Wind
 private: System::Void pass_textbox_Enter(System::Object^  sender, System::EventArgs^  e);
 private: System::Void pass_textbox_Leave(System::Object^  sender, System::EventArgs^  e);
 private: System::Void login_button_Enter(System::Object^  sender, System::EventArgs^  e);
-private: System::Void login_button_Leave(System::Object^  sender, System::EventArgs^  e);
 private: System::Void login_button_KeyDown(System::Object^  sender, System::Windows::Forms::KeyEventArgs^  e);
+private: System::Void login_button_Click(System::Object^  sender, System::EventArgs^  e);
+private: System::String^ getMD5String(String^ data);
+private: System::Boolean Auth(String^ login, String^ pass);
+private: System::Void msg_exe_timer_Tick(System::Object^  sender, System::EventArgs^  e);
+private: System::Void set_exe_on_timer(String^ text);
+private: System::Void check_save_login_KeyDown(System::Object^  sender, System::Windows::Forms::KeyEventArgs^  e);
+private: System::Void LastLogin(System::Object^  sender, System::EventArgs^  e);
 };
 }

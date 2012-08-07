@@ -58,6 +58,7 @@ namespace Action {
 
 	private: System::ComponentModel::IContainer^  components;
 	private: MySqlConnection^	conn;
+	private: MySqlCommand^	cmd;
 	private: System::Windows::Forms::Button^  exit_button;
 	private: System::Windows::Forms::Button^  hide_button;
 	private: System::Windows::Forms::NotifyIcon^  Action;
@@ -68,7 +69,6 @@ namespace Action {
 	private: System::Windows::Forms::Timer^  s_status_timer;
 	private: System::Windows::Forms::CheckBox^  active_check;
 	private: System::ComponentModel::BackgroundWorker^  backgroundWorker1;
-	private: MySqlCommand^	cmd;
 
 	private:
 		/// <summary>
@@ -444,8 +444,8 @@ private: System::Void hide_button_Click(System::Object^  sender, System::EventAr
 private: System::Void Action_MouseDoubleClick(System::Object^  sender, System::Windows::Forms::MouseEventArgs^  e);
 private: System::Void clean_button_Click(System::Object^  sender, System::EventArgs^  e);
 private: System::Void Form1::query(String^ bar);
-private: char* SystemStringToChar(System::String^ string);
-private: String^ CharToSystemString(char* ch);
+public: static char* SystemStringToChar(System::String^ string);
+public: static String^ CharToSystemString(char* ch);
 private: System::Void bar_box_TextChanged(System::Object^  sender, System::EventArgs^  e);
 private: System::Void bar_box_KeyDown_1(System::Object^  sender, System::Windows::Forms::KeyEventArgs^  e);
 private: System::Void old_price_box_KeyDown(System::Object^  sender, System::Windows::Forms::KeyEventArgs^  e);
