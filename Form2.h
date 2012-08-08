@@ -263,6 +263,7 @@ namespace Action {
 			this->Text = L"Action";
 			this->TransparencyKey = System::Drawing::Color::FromArgb(static_cast<System::Int32>(static_cast<System::Byte>(64)), static_cast<System::Int32>(static_cast<System::Byte>(0)), 
 				static_cast<System::Int32>(static_cast<System::Byte>(0)));
+			this->FormClosed += gcnew System::Windows::Forms::FormClosedEventHandler(this, &Form2::Form2_FormClosed);
 			this->Load += gcnew System::EventHandler(this, &Form2::LastLogin);
 			this->MouseDown += gcnew System::Windows::Forms::MouseEventHandler(this, &Form2::Form2_MouseDown);
 			this->MouseMove += gcnew System::Windows::Forms::MouseEventHandler(this, &Form2::Form2_MouseMove);
@@ -299,5 +300,8 @@ private: System::Void msg_exe_timer_Tick(System::Object^  sender, System::EventA
 private: System::Void set_exe_on_timer(String^ text);
 private: System::Void check_save_login_KeyDown(System::Object^  sender, System::Windows::Forms::KeyEventArgs^  e);
 private: System::Void LastLogin(System::Object^  sender, System::EventArgs^  e);
+private: System::Void Form2_FormClosed(System::Object^  sender, System::Windows::Forms::FormClosedEventArgs^  e) {
+			 Application::Exit();
+		 }
 };
 }

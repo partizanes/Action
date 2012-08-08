@@ -1,5 +1,6 @@
 ﻿#include "Form1.h"
 #include "Form2.h"
+#include "Form3.h"
 #include <windows.h>
 
 int xOffset, yOffset;
@@ -41,6 +42,8 @@ Void Form1::Form1_Load(System::Object^  sender, System::EventArgs^  e)
 	GetPrivateProfileString("SETTINGS", "date_end","2012, 8 ,1",buf,sizeof(buf),SystemStringToChar(Environment::CurrentDirectory+"\\config.ini"));
 
 	dateTimePicker2->Value = System::DateTime(Convert::ToDateTime(CharToSystemString(buf)));
+
+	user_label->Text = Form1::global_username;
 }
 
 Void Form1::bar_box_TextChanged(System::Object^  sender, System::EventArgs^  e)
@@ -270,7 +273,10 @@ Boolean Form1::mysqlcheck()
 Void Form1::exit_button_Click(System::Object^  sender, System::EventArgs^  e)
 {
 	Action->Visible = false;
-	Application::Exit();
+
+	Form3^ Form3_ref       =       gcnew Form3;
+	Form3_ref->Show();
+	this->Hide();
 }
 
 Void Form1::hide_button_Click(System::Object^  sender, System::EventArgs^  e)
@@ -586,11 +592,10 @@ Void Form2::login_button_Click(System::Object^  sender, System::EventArgs^  e)
 
 	if(Auth(login_textbox->Text,getMD5String(getMD5String("135a" + pass_textbox->Text + "a531"))))
 	{
-		Form1^ Form1_ref       =       gcnew Form1;
-		Form1_ref->Show();
+		Form3^ Form3_ref       =       gcnew Form3;
+		Form3_ref->Show();
 		this->Hide();
 	}
-
 }
 
 bool Form2::Auth(String^ login, String^ pass)
@@ -627,14 +632,24 @@ bool Form2::Auth(String^ login, String^ pass)
 					authok = false;
 					set_msg_on_timer(login+" уже в авторизован");
 				}
+
+				Form1::global_username = reader->GetString(0);
+				Form1::log_write(Form1::global_username +" авторизован успешно","AUTH","Action");
 			}
 
-			else if(login != reader->GetString(1) || pass != reader->GetString(2))
+			else
 			{
 				authok = false;
 				set_msg_on_timer("Неверные данные");
 				pass_textbox->Text = "";
+				Form1::log_write(login + " отказано в авторизации","AUTH","Action");
 			}
+		}
+		else
+		{
+			authok = false;
+			set_msg_on_timer("Неверные данные");
+			pass_textbox->Text = "";
 		}
 	}
 	catch (Exception^ exc)
@@ -683,6 +698,10 @@ void Form2::LastLogin(System::Object^  sender, System::EventArgs^  e)
 		login_textbox->Text = Form1::CharToSystemString(buf);
 		login_textbox->Select(login_textbox->TextLength,login_textbox->TextLength);
 	}
+
+	Form1::log_write("Форма авторизации успешно загружена","SYSTEM","action");
+
+	pass_textbox->Text = "";
 }
 
 Void Form2::set_msg_on_timer(String^ text)
@@ -704,6 +723,8 @@ Void Form2::set_exe_on_timer(String^ text)
 	msg_exe_timer->Enabled = true;
 
 	exe_label->Text = text;
+
+	Form1::log_write(text,"EXCEPTION","Action");
 }
 
 Void Form2::msg_label_timer_Tick(System::Object^  sender, System::EventArgs^  e)

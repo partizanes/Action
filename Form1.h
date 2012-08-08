@@ -69,7 +69,9 @@ namespace Action {
 	private: System::Windows::Forms::Timer^  s_status_timer;
 	private: System::Windows::Forms::CheckBox^  active_check;
 	private: System::ComponentModel::BackgroundWorker^  backgroundWorker1;
+	public: static System::Windows::Forms::Label^  user_label;
 
+	public: static String^ global_username;
 	private:
 		/// <summary>
 		/// Требуется переменная конструктора.
@@ -110,6 +112,7 @@ namespace Action {
 			this->s_status_timer = (gcnew System::Windows::Forms::Timer(this->components));
 			this->active_check = (gcnew System::Windows::Forms::CheckBox());
 			this->backgroundWorker1 = (gcnew System::ComponentModel::BackgroundWorker());
+			this->user_label = (gcnew System::Windows::Forms::Label());
 			this->SuspendLayout();
 			// 
 			// bar_label
@@ -393,11 +396,25 @@ namespace Action {
 			this->backgroundWorker1->DoWork += gcnew System::ComponentModel::DoWorkEventHandler(this, &Form1::backgroundWorker1_DoWork);
 			this->backgroundWorker1->RunWorkerCompleted += gcnew System::ComponentModel::RunWorkerCompletedEventHandler(this, &Form1::backgroundWorker1_RunWorkerCompleted);
 			// 
+			// user_label
+			// 
+			this->user_label->AutoSize = true;
+			this->user_label->BackColor = System::Drawing::Color::Transparent;
+			this->user_label->Font = (gcnew System::Drawing::Font(L"Microsoft Sans Serif", 9.75F, System::Drawing::FontStyle::Regular, System::Drawing::GraphicsUnit::Point, 
+				static_cast<System::Byte>(204)));
+			this->user_label->ForeColor = System::Drawing::Color::DodgerBlue;
+			this->user_label->Location = System::Drawing::Point(631, 9);
+			this->user_label->Name = L"user_label";
+			this->user_label->Size = System::Drawing::Size(0, 16);
+			this->user_label->TabIndex = 0;
+			// 
 			// Form1
 			// 
 			this->AutoScaleDimensions = System::Drawing::SizeF(6, 13);
 			this->AutoScaleMode = System::Windows::Forms::AutoScaleMode::Font;
 			this->ClientSize = System::Drawing::Size(719, 424);
+			this->ControlBox = false;
+			this->Controls->Add(this->user_label);
 			this->Controls->Add(this->active_check);
 			this->Controls->Add(this->label2);
 			this->Controls->Add(this->label1);
@@ -427,8 +444,6 @@ namespace Action {
 			this->Name = L"Form1";
 			this->StartPosition = System::Windows::Forms::FormStartPosition::CenterScreen;
 			this->Text = L"Action";
-			this->FormClosing += gcnew System::Windows::Forms::FormClosingEventHandler(this, &Form1::Form1_FormClosing);
-			this->FormClosed += gcnew System::Windows::Forms::FormClosedEventHandler(this, &Form1::Form1_FormClosed);
 			this->Load += gcnew System::EventHandler(this, &Form1::Form1_Load);
 			this->ResumeLayout(false);
 			this->PerformLayout();
@@ -451,19 +466,13 @@ private: System::Void bar_box_KeyDown_1(System::Object^  sender, System::Windows
 private: System::Void old_price_box_KeyDown(System::Object^  sender, System::Windows::Forms::KeyEventArgs^  e);
 private: System::Void new_price_box_KeyDown(System::Object^  sender, System::Windows::Forms::KeyEventArgs^  e);
 private: System::Void send_button_Click(System::Object^  sender, System::EventArgs^  e);
-private: System::Void Form1_FormClosed(System::Object^  sender, System::Windows::Forms::FormClosedEventArgs^  e) {
-			 Action->Visible = false;
-		 }
 private: System::Void s_status_timer_Tick(System::Object^  sender, System::EventArgs^  e) {
 			 send_label->Text = "";
 			 s_status_timer->Enabled = false;
 		 }
-private: System::Void Form1_FormClosing(System::Object^  sender, System::Windows::Forms::FormClosingEventArgs^  e) {
-			 Action->Visible = false;
-		 }
 private: System::Void send_button_Enter(System::Object^  sender, System::EventArgs^  e);
 private: System::Void send_button_KeyDown(System::Object^  sender, System::Windows::Forms::KeyEventArgs^  e);
-private: System::Void log_write(String^ str,String^ reason,String^ logname);
+public: static System::Void log_write(String^ str,String^ reason,String^ logname);
 private: System::Void backgroundWorker1_DoWork(System::Object^  sender, System::ComponentModel::DoWorkEventArgs^  e);
 private: System::Void backgroundWorker1_RunWorkerCompleted(System::Object^  sender, System::ComponentModel::RunWorkerCompletedEventArgs^  e);
 };
