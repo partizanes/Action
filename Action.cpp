@@ -458,11 +458,6 @@ Void Form2::pass_textbox_Enter(System::Object^  sender, System::EventArgs^  e)
 	}
 }
 
-Void Form2::login_button_Enter(System::Object^  sender, System::EventArgs^  e)
-{
-		 check_save_login->Visible = true;
-}
-
 Void Form2::pass_textbox_Leave(System::Object^  sender, System::EventArgs^  e)
 {
 	check_save_login->Visible = true;

@@ -31,6 +31,8 @@ namespace Action {
 	public: static System::Windows::Forms::TextBox^  pass_textbox;
 	private: 
 
+	private: 
+
 	private: System::Windows::Forms::Label^  login_label;
 	private: Point mouseOffset;
 	protected: 
@@ -162,6 +164,7 @@ namespace Action {
 			this->login_button->Click += gcnew System::EventHandler(this, &Form2::login_button_Click);
 			this->login_button->Enter += gcnew System::EventHandler(this, &Form2::login_button_Enter);
 			this->login_button->KeyDown += gcnew System::Windows::Forms::KeyEventHandler(this, &Form2::login_button_KeyDown);
+			this->login_button->Leave += gcnew System::EventHandler(this, &Form2::login_button_Leave);
 			// 
 			// check_save_login
 			// 
@@ -309,5 +312,6 @@ private: System::Void Form2_FormClosed(System::Object^  sender, System::Windows:
 private: System::Void Form2_FormClosing(System::Object^  sender, System::Windows::Forms::FormClosingEventArgs^  e) {
 			 Application::Exit();
 		 }
+private: System::Void login_button_Leave(System::Object^  sender, System::EventArgs^  e);
 };
 }
