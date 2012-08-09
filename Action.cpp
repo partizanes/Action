@@ -1,6 +1,7 @@
 ﻿#include "Form1.h"
 #include "Form2.h"
 #include "Form3.h"
+#include "Form4.h"
 #include <windows.h>
 
 int xOffset, yOffset;
@@ -18,7 +19,6 @@ int main(array<System::String ^> ^args)
 	Application::EnableVisualStyles();
 	Application::SetCompatibleTextRenderingDefault(false); 
 
-	//Application::Run(gcnew Form1());
 	Application::Run(gcnew Form2());
 	return 0;
 }
@@ -277,6 +277,8 @@ Void Form1::exit_button_Click(System::Object^  sender, System::EventArgs^  e)
 	Form3^ Form3_ref       =       gcnew Form3;
 	Form3_ref->Show();
 	this->Hide();
+
+	Form3::write_action_button->Focus();
 }
 
 Void Form1::hide_button_Click(System::Object^  sender, System::EventArgs^  e)
@@ -642,6 +644,7 @@ bool Form2::Auth(String^ login, String^ pass)
 				authok = false;
 				set_msg_on_timer("Неверные данные");
 				pass_textbox->Text = "";
+				pass_textbox->Focus();
 				Form1::log_write(login + " отказано в авторизации","AUTH","Action");
 			}
 		}
@@ -650,6 +653,7 @@ bool Form2::Auth(String^ login, String^ pass)
 			authok = false;
 			set_msg_on_timer("Неверные данные");
 			pass_textbox->Text = "";
+			pass_textbox->Focus();
 		}
 	}
 	catch (Exception^ exc)
@@ -809,4 +813,13 @@ Void Form2::login_panel_MouseMove(System::Object^  sender, System::Windows::Form
 Void Form2::login_panel_MouseUp(System::Object^  sender, System::Windows::Forms::MouseEventArgs^  e)
 {
 	isMouseDown = false;
+}
+
+Void Form1::Form1_FormClosed(System::Object^  sender, System::Windows::Forms::FormClosedEventArgs^  e)
+{
+	Form3^ Form3_ref       =       gcnew Form3;
+	Form3_ref->Show();
+	this->Hide();
+
+	Form3::write_action_button->Focus();
 }

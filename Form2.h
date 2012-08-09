@@ -28,7 +28,9 @@ namespace Action {
 			}
 		}
 	private: System::Windows::Forms::TextBox^  login_textbox;
-	private: System::Windows::Forms::TextBox^  pass_textbox;
+	public: static System::Windows::Forms::TextBox^  pass_textbox;
+	private: 
+
 	private: System::Windows::Forms::Label^  login_label;
 	private: Point mouseOffset;
 	protected: 
@@ -263,6 +265,7 @@ namespace Action {
 			this->Text = L"Action";
 			this->TransparencyKey = System::Drawing::Color::FromArgb(static_cast<System::Int32>(static_cast<System::Byte>(64)), static_cast<System::Int32>(static_cast<System::Byte>(0)), 
 				static_cast<System::Int32>(static_cast<System::Byte>(0)));
+			this->FormClosing += gcnew System::Windows::Forms::FormClosingEventHandler(this, &Form2::Form2_FormClosing);
 			this->FormClosed += gcnew System::Windows::Forms::FormClosedEventHandler(this, &Form2::Form2_FormClosed);
 			this->Load += gcnew System::EventHandler(this, &Form2::LastLogin);
 			this->MouseDown += gcnew System::Windows::Forms::MouseEventHandler(this, &Form2::Form2_MouseDown);
@@ -301,6 +304,9 @@ private: System::Void set_exe_on_timer(String^ text);
 private: System::Void check_save_login_KeyDown(System::Object^  sender, System::Windows::Forms::KeyEventArgs^  e);
 private: System::Void LastLogin(System::Object^  sender, System::EventArgs^  e);
 private: System::Void Form2_FormClosed(System::Object^  sender, System::Windows::Forms::FormClosedEventArgs^  e) {
+			 Application::Exit();
+		 }
+private: System::Void Form2_FormClosing(System::Object^  sender, System::Windows::Forms::FormClosingEventArgs^  e) {
 			 Application::Exit();
 		 }
 };

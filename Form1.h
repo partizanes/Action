@@ -69,7 +69,9 @@ namespace Action {
 	private: System::Windows::Forms::Timer^  s_status_timer;
 	private: System::Windows::Forms::CheckBox^  active_check;
 	private: System::ComponentModel::BackgroundWorker^  backgroundWorker1;
-	public: static System::Windows::Forms::Label^  user_label;
+	public: System::Windows::Forms::Label^  user_label;
+	private: 
+
 
 	public: static String^ global_username;
 	private:
@@ -437,6 +439,7 @@ namespace Action {
 			this->Controls->Add(this->name_label);
 			this->Controls->Add(this->true_bar_label);
 			this->Controls->Add(this->bar_label);
+			this->DoubleBuffered = true;
 			this->FormBorderStyle = System::Windows::Forms::FormBorderStyle::FixedToolWindow;
 			this->Icon = (cli::safe_cast<System::Drawing::Icon^  >(resources->GetObject(L"$this.Icon")));
 			this->MaximizeBox = false;
@@ -444,6 +447,7 @@ namespace Action {
 			this->Name = L"Form1";
 			this->StartPosition = System::Windows::Forms::FormStartPosition::CenterScreen;
 			this->Text = L"Action";
+			this->FormClosed += gcnew System::Windows::Forms::FormClosedEventHandler(this, &Form1::Form1_FormClosed);
 			this->Load += gcnew System::EventHandler(this, &Form1::Form1_Load);
 			this->ResumeLayout(false);
 			this->PerformLayout();
@@ -475,6 +479,7 @@ private: System::Void send_button_KeyDown(System::Object^  sender, System::Windo
 public: static System::Void log_write(String^ str,String^ reason,String^ logname);
 private: System::Void backgroundWorker1_DoWork(System::Object^  sender, System::ComponentModel::DoWorkEventArgs^  e);
 private: System::Void backgroundWorker1_RunWorkerCompleted(System::Object^  sender, System::ComponentModel::RunWorkerCompletedEventArgs^  e);
+private: System::Void Form1_FormClosed(System::Object^  sender, System::Windows::Forms::FormClosedEventArgs^  e);
 };
 }
 

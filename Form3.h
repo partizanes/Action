@@ -1,4 +1,9 @@
 ﻿#pragma once
+#include "Form1.h"
+#include "Form2.h"
+#include "Form3.h"
+#include "Form4.h"
+#include <windows.h>
 
 namespace Action {
 
@@ -37,6 +42,8 @@ namespace Action {
 	public: System::Windows::Forms::Label^  user_label;
 	private: System::Windows::Forms::Button^  balance_button;
 	private: System::Windows::Forms::Button^  priority_button;
+	public: static System::Windows::Forms::Button^  settings_button;
+	private: 
 
 	public: 
 
@@ -44,14 +51,15 @@ namespace Action {
 
 	public: 
 
-	private: System::Windows::Forms::Button^  settings_button;
 
 
-	private: System::Windows::Forms::Button^  write_action_button;
+
+
 	private: System::Windows::Forms::Button^  logout_button;
 
 
 	private: System::Windows::Forms::Label^  name_label;
+	public: static System::Windows::Forms::Button^  write_action_button;
 	protected: 
 
 	protected: 
@@ -134,6 +142,7 @@ namespace Action {
 			this->settings_button->TabIndex = 4;
 			this->settings_button->Text = L"Настройка";
 			this->settings_button->UseVisualStyleBackColor = true;
+			this->settings_button->Click += gcnew System::EventHandler(this, &Form3::settings_button_Click);
 			this->settings_button->Enter += gcnew System::EventHandler(this, &Form3::settings_button_Enter);
 			this->settings_button->Leave += gcnew System::EventHandler(this, &Form3::settings_button_Leave);
 			// 
@@ -205,6 +214,7 @@ namespace Action {
 			this->Text = L"Action";
 			this->TransparencyKey = System::Drawing::Color::FromArgb(static_cast<System::Int32>(static_cast<System::Byte>(64)), static_cast<System::Int32>(static_cast<System::Byte>(0)), 
 				static_cast<System::Int32>(static_cast<System::Byte>(0)));
+			this->FormClosed += gcnew System::Windows::Forms::FormClosedEventHandler(this, &Form3::Form3_FormClosed);
 			this->Load += gcnew System::EventHandler(this, &Form3::Form3_Load);
 			this->ResumeLayout(false);
 			this->PerformLayout();
@@ -247,8 +257,9 @@ private: System::Void logout_button_Click(System::Object^  sender, System::Event
 			 Form2^ Form2_ref       =       gcnew Form2;
 			 Form2_ref->Show();
 			 this->Hide();
-			
+
 			 Form1::global_username = "";
+			 Form2::pass_textbox->Focus();
 
 		 }
 private: System::Void priority_button_Enter(System::Object^  sender, System::EventArgs^  e)
@@ -294,5 +305,13 @@ private: System::Void logout_button_Leave(System::Object^  sender, System::Event
 			 logout_button->Font = (gcnew System::Drawing::Font(L"Microsoft Sans Serif", 20.25F, System::Drawing::FontStyle::Regular, System::Drawing::GraphicsUnit::Point, 
 				 static_cast<System::Byte>(204)));
 		 }
+private: System::Void settings_button_Click(System::Object^  sender, System::EventArgs^  e) 
+		 {
+			 Form4^ Form4_ref       =       gcnew Form4;
+			 Form4_ref->Show();
+
+			 this->Hide();
+		 }
+private: System::Void Form3_FormClosed(System::Object^  sender, System::Windows::Forms::FormClosedEventArgs^  e);
 };
 }
