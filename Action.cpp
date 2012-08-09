@@ -3,9 +3,6 @@
 #include "Form3.h"
 #include <windows.h>
 
-int xOffset, yOffset;
-bool isMouseDown = false;
-
 using namespace Action;
 using namespace System::IO;
 using namespace System::Runtime::InteropServices;
