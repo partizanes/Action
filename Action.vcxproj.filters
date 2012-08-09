@@ -32,9 +32,6 @@
     <ClCompile Include=".\Action3.cpp">
       <Filter>Файлы исходного кода</Filter>
     </ClCompile>
-    <ClCompile Include="Action4.cpp">
-      <Filter>Файлы исходного кода</Filter>
-    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Form1.h">
@@ -47,9 +44,6 @@
       <Filter>Заголовочные файлы</Filter>
     </ClInclude>
     <ClInclude Include=".\Form3.h">
-      <Filter>Заголовочные файлы</Filter>
-    </ClInclude>
-    <ClInclude Include="Form4.h">
       <Filter>Заголовочные файлы</Filter>
     </ClInclude>
   </ItemGroup>

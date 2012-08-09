@@ -2,7 +2,6 @@
 #include "Form1.h"
 #include "Form2.h"
 #include "Form3.h"
-#include "Form4.h"
 #include <windows.h>
 
 namespace Action {
@@ -307,10 +306,73 @@ private: System::Void logout_button_Leave(System::Object^  sender, System::Event
 		 }
 private: System::Void settings_button_Click(System::Object^  sender, System::EventArgs^  e) 
 		 {
-			 Form4^ Form4_ref       =       gcnew Form4;
-			 Form4_ref->Show();
+			 if( settings_button->Text == "Настройка")
+			 {
+				 for(int i=0;i<96;i++)
+				 {
+					 this->settings_button->Location = System::Drawing::Point(343-i, 253);
 
-			 this->Hide();
+					 Sleep(7/10);
+
+					 if(i == 33)
+						 balance_button->Visible = false;
+
+					 if(i == 66)
+						 logout_button->Visible = false;
+
+					 if(i == 95)
+						 priority_button->Visible = false;
+				 }
+
+				 for(int i=0;i<76;i++)
+				 {
+					 this->settings_button->Location = System::Drawing::Point(248, 253+i);
+
+					 Sleep(7/10);
+
+					 if(i == 33)
+						 write_action_button->Visible = false;
+
+					 if(i == 66)
+						 user_label->Location = System::Drawing::Point(566, 343);
+
+					 if(i == 75)
+						 settings_button->Text = "Назад";
+				 }
+			 }
+			 else
+			 {
+				 for(int i=0;i<76;i++)
+				 {
+					 this->settings_button->Location = System::Drawing::Point(248, 328-i);
+
+					 Sleep(9/10);
+
+					 if(i == 33)
+						 balance_button->Visible = true;
+
+					 if(i == 66)
+						 logout_button->Visible = true;
+				 }
+				 for(int i=0;i<96;i++)
+				 {
+					 this->settings_button->Location = System::Drawing::Point(248+i, 253);
+
+					 Sleep(9/10);
+
+					 if(i == 33)
+						 write_action_button->Visible = true;
+
+					 if(i == 66)
+						 user_label->Location = System::Drawing::Point(625,19);
+
+					 if(i == 75)
+						 settings_button->Text = "Настройка";
+
+					 if(i == 95)
+						 priority_button->Visible = true;
+				 }
+			 }
 		 }
 private: System::Void Form3_FormClosed(System::Object^  sender, System::Windows::Forms::FormClosedEventArgs^  e);
 };
