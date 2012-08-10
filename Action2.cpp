@@ -85,7 +85,7 @@ Void Form2::login_textbox_KeyDown(System::Object^  sender, System::Windows::Form
 				set_msg_on_timer("Привет "+login_textbox->Text +"!");
 				break;
 			case 2:
-				set_msg_on_timer("Мне скучно!Давай поиграем!");
+				set_msg_on_timer("Готов к работе!");
 				break;
 			default:
 				break;

@@ -41,14 +41,15 @@ namespace Action {
 		}
 	public: System::Windows::Forms::Label^  user_label;
 	private: System::Windows::Forms::Button^  balance_button;
-	private: System::Windows::Forms::Button^  priority_button;
+	public: static System::Windows::Forms::Button^  priority_button;
 	public: System::Windows::Forms::Button^  settings_button;
-
+	public: static System::Windows::Forms::Button^  write_action_button;
 	private: System::Windows::Forms::Button^  logout_button;
 
 
 	private: System::Windows::Forms::Label^  name_label;
-	public: static System::Windows::Forms::Button^  write_action_button;
+	private: 
+
 	private: 
 
 	private: Point mouseOffset2;
