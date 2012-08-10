@@ -66,7 +66,7 @@ Void Form1::send_button_Click(System::Object^  sender, System::EventArgs^  e)
     GetPrivateProfileString("SETTINGS", "srv_local","192.168.1.11",buf,sizeof(buf),SystemStringToChar(Environment::CurrentDirectory+"\\config.ini"));
 
     String^ connStr = String::Format("server={0};uid={1};pwd={2};database={3};",
-    CharToSystemString(buf), "root", "fallen", "action");
+    CharToSystemString(buf), "root", "***REMOVED***", "action");
 
  	conn = gcnew MySqlConnection(connStr);
  
@@ -145,12 +145,14 @@ Void Form1::send_button_Click(System::Object^  sender, System::EventArgs^  e)
 			listBox1->Items->Add (bar_box->Text+"  "+true_bar_box->Text+"  "+name_box->Text+"  "+old_price_box->Text+"  "+new_price_box->Text+"  "+dateTimePicker1->Text+"  "+dateTimePicker2->Text+"  "+"Отклонено");
 		}
 		s_status_timer->Enabled = true;
+		listBox1->SelectedIndex = listBox1->Items->Count - 1;
 
 		bar_box->Text = "";
 		name_box->Text = "";
 		true_bar_box->Text = "";
 		old_price_box->Text = "";
 		new_price_box->Text = "";
+		active_check->Checked = true;
 		bar_box->Focus();
  	}
 }

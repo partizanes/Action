@@ -6,7 +6,7 @@
 
 using namespace Action;
 
-Void Form4::Back_button_Click(System::Object^  sender, System::EventArgs^  e)
+Void Form4::back_button_Click(System::Object^  sender, System::EventArgs^  e)
 		 {
 			 Form3^ Form3_ref       =       gcnew Form3;
 			 Form3_ref->Show();
