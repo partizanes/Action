@@ -2,6 +2,7 @@
 #include "Form1.h"
 #include "Form2.h"
 #include "Form3.h"
+#include "Form4.h"
 #include <windows.h>
 
 namespace Action {
@@ -42,34 +43,15 @@ namespace Action {
 	private: System::Windows::Forms::Button^  balance_button;
 	private: System::Windows::Forms::Button^  priority_button;
 	public: System::Windows::Forms::Button^  settings_button;
-	private: 
-
-	private: 
-
-	public: 
-
-	public: 
-
-	public: 
-
-
-
-
 
 	private: System::Windows::Forms::Button^  logout_button;
 
 
 	private: System::Windows::Forms::Label^  name_label;
 	public: static System::Windows::Forms::Button^  write_action_button;
+	private: 
+
 	private: Point mouseOffset2;
-
-	protected: 
-
-	protected: 
-
-	protected: 
-
-	protected: 
 
 	protected: 
 
@@ -132,6 +114,7 @@ namespace Action {
 			this->priority_button->TabIndex = 2;
 			this->priority_button->Text = L"Очерёдность";
 			this->priority_button->UseVisualStyleBackColor = true;
+			this->priority_button->Click += gcnew System::EventHandler(this, &Form3::priority_button_Click);
 			this->priority_button->Enter += gcnew System::EventHandler(this, &Form3::priority_button_Enter);
 			this->priority_button->Leave += gcnew System::EventHandler(this, &Form3::priority_button_Leave);
 			// 
@@ -385,5 +368,11 @@ private: System::Void Form3_FormClosed(System::Object^  sender, System::Windows:
 private: System::Void Form3_MouseDown(System::Object^  sender, System::Windows::Forms::MouseEventArgs^  e);
 private: System::Void Form3_MouseMove(System::Object^  sender, System::Windows::Forms::MouseEventArgs^  e);
 private: System::Void Form3_MouseUp(System::Object^  sender, System::Windows::Forms::MouseEventArgs^  e);
+private: System::Void priority_button_Click(System::Object^  sender, System::EventArgs^  e) {
+
+		Form4^ Form4_ref       =       gcnew Form4;
+		Form4_ref->Show();
+		this->Hide();
+		 }
 };
 }
