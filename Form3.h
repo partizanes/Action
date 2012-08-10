@@ -41,7 +41,9 @@ namespace Action {
 	public: System::Windows::Forms::Label^  user_label;
 	private: System::Windows::Forms::Button^  balance_button;
 	private: System::Windows::Forms::Button^  priority_button;
-	public: static System::Windows::Forms::Button^  settings_button;
+	public: System::Windows::Forms::Button^  settings_button;
+	private: 
+
 	private: 
 
 	public: 
@@ -59,6 +61,8 @@ namespace Action {
 
 	private: System::Windows::Forms::Label^  name_label;
 	public: static System::Windows::Forms::Button^  write_action_button;
+	private: Point mouseOffset2;
+
 	protected: 
 
 	protected: 
@@ -215,6 +219,9 @@ namespace Action {
 				static_cast<System::Int32>(static_cast<System::Byte>(0)));
 			this->FormClosed += gcnew System::Windows::Forms::FormClosedEventHandler(this, &Form3::Form3_FormClosed);
 			this->Load += gcnew System::EventHandler(this, &Form3::Form3_Load);
+			this->MouseDown += gcnew System::Windows::Forms::MouseEventHandler(this, &Form3::Form3_MouseDown);
+			this->MouseMove += gcnew System::Windows::Forms::MouseEventHandler(this, &Form3::Form3_MouseMove);
+			this->MouseUp += gcnew System::Windows::Forms::MouseEventHandler(this, &Form3::Form3_MouseUp);
 			this->ResumeLayout(false);
 			this->PerformLayout();
 
@@ -375,5 +382,8 @@ private: System::Void settings_button_Click(System::Object^  sender, System::Eve
 			 }
 		 }
 private: System::Void Form3_FormClosed(System::Object^  sender, System::Windows::Forms::FormClosedEventArgs^  e);
+private: System::Void Form3_MouseDown(System::Object^  sender, System::Windows::Forms::MouseEventArgs^  e);
+private: System::Void Form3_MouseMove(System::Object^  sender, System::Windows::Forms::MouseEventArgs^  e);
+private: System::Void Form3_MouseUp(System::Object^  sender, System::Windows::Forms::MouseEventArgs^  e);
 };
 }

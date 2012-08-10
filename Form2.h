@@ -34,7 +34,6 @@ namespace Action {
 	private: 
 
 	private: System::Windows::Forms::Label^  login_label;
-	private: Point mouseOffset;
 	protected: 
 
 	private: System::Windows::Forms::Label^  pass_label;
@@ -49,7 +48,7 @@ namespace Action {
 	private: MySqlConnection^	conn;
 	private: System::Windows::Forms::Label^  exe_label;
 	private: System::Windows::Forms::Timer^  msg_exe_timer;
-
+	private: Point mouseOffset;
 	private: MySqlCommand^	cmd;
 	private:
 

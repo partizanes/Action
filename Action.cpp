@@ -199,61 +199,6 @@ Void Form1::Action_MouseDoubleClick(System::Object^  sender, System::Windows::Fo
 	Action->Visible = false;
 }
 
-Void Form1::query(String^ bar)
-{
-	char buf[50];
-
-	GetPrivateProfileString("SETTINGS", "srv_global","192.168.1.100",buf,sizeof(buf),SystemStringToChar(Environment::CurrentDirectory+"\\config.ini"));
-
-	String^ connStr = String::Format("server={0};uid={1};pwd={2};database={3};",
-		CharToSystemString(buf), "admin", "12345", "ukmserver");
-
-	conn = gcnew MySqlConnection(connStr);
-
-	MySqlDataReader^ reader = nullptr;
-
-	try
-	{
-		conn->Open();
-
-		cmd = gcnew MySqlCommand("SELECT a.name, b.price ,c.id,c.item \n"
-			"FROM trm_in_var C \n"
-			"LEFT JOIN trm_in_items A ON A.id=C.item \n"
-			"LEFT JOIN trm_in_pricelist_items B ON B.item=c.item \n"
-			"WHERE a.id='"+bar+"'\n"
-			" AND (b.pricelist_id="+GetPrivateProfileInt("SETTINGS", "id_pricelist",1,SystemStringToChar(Environment::CurrentDirectory+"\\config.ini"))+")", conn);
-
-		MySqlDataReader^ reader = cmd->ExecuteReader();
-
-		if(reader->Read())
-		{
-			name_box->Text = reader->GetString(0);
-			true_bar_box->Text = reader->GetString(2);
-			new_price_box->Text = Convert::ToString(reader->GetInt32(1));
-			old_price_box->Focus();
-		}
-		else
-		{
-			send_label->ForeColor = Color::Red;
-			send_label->Text = "Не найдено!";
-
-			clean_button->PerformClick();
-			bar_box->Text = "";
-			bar_box->Focus();
-		}
-
-	}
-	catch (Exception^ exc)
-	{
-		MessageBox::Show("Exception: " + exc->Message);
-	}
-	finally
-	{
-		if (reader != nullptr)
-			reader->Close();
-	}
-}
-
 Void Form1::send_button_KeyDown(System::Object^  sender, System::Windows::Forms::KeyEventArgs^  e)
 {
 	if (e->KeyCode == Keys::Up || e->KeyCode == Keys::Left )
@@ -374,6 +319,61 @@ Void Form1::log_write(String^ str,String^ reason,String^ logname)
 	StreamWriter^ sw = gcnew StreamWriter(fileName,true,System::Text::Encoding::UTF8);
 	sw->WriteLine("["+EntryDate+"]["+EntryTime+"]["+reason+"]"+" "+str);
 	sw->Close();
+}
+
+Void Form1::query(String^ bar)
+{
+	char buf[50];
+
+	GetPrivateProfileString("SETTINGS", "srv_global","192.168.1.100",buf,sizeof(buf),SystemStringToChar(Environment::CurrentDirectory+"\\config.ini"));
+
+	String^ connStr = String::Format("server={0};uid={1};pwd={2};database={3};",
+		CharToSystemString(buf), "admin", "12345", "ukmserver");
+
+	conn = gcnew MySqlConnection(connStr);
+
+	MySqlDataReader^ reader = nullptr;
+
+	try
+	{
+		conn->Open();
+
+		cmd = gcnew MySqlCommand("SELECT a.name, b.price ,c.id,c.item \n"
+			"FROM trm_in_var C \n"
+			"LEFT JOIN trm_in_items A ON A.id=C.item \n"
+			"LEFT JOIN trm_in_pricelist_items B ON B.item=c.item \n"
+			"WHERE a.id='"+bar+"'\n"
+			" AND (b.pricelist_id="+GetPrivateProfileInt("SETTINGS", "id_pricelist",1,SystemStringToChar(Environment::CurrentDirectory+"\\config.ini"))+")", conn);
+
+		MySqlDataReader^ reader = cmd->ExecuteReader();
+
+		if(reader->Read())
+		{
+			name_box->Text = reader->GetString(0);
+			true_bar_box->Text = reader->GetString(2);
+			new_price_box->Text = Convert::ToString(reader->GetInt32(1));
+			old_price_box->Focus();
+		}
+		else
+		{
+			send_label->ForeColor = Color::Red;
+			send_label->Text = "Не найдено!";
+
+			clean_button->PerformClick();
+			bar_box->Text = "";
+			bar_box->Focus();
+		}
+
+	}
+	catch (Exception^ exc)
+	{
+		MessageBox::Show("Exception: " + exc->Message);
+	}
+	finally
+	{
+		if (reader != nullptr)
+			reader->Close();
+	}
 }
 
 Void Form1::backgroundWorker1_DoWork(System::Object^  sender, System::ComponentModel::DoWorkEventArgs^  e)
