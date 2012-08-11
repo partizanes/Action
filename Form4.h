@@ -43,25 +43,16 @@ namespace Action {
 	private: System::Windows::Forms::Button^  turn_button;
 	private: System::Windows::Forms::Panel^  insert_turn_panel;
 	private: System::Windows::Forms::Button^  add_turn_button;
-
 	private: System::Windows::Forms::Button^  list_button;
 	private: System::Windows::Forms::Label^  name_label;
 	private: System::Windows::Forms::Button^  back_button;
 	private: System::Windows::Forms::Label^  item_name_label;
-
 	private: System::Windows::Forms::Label^  count_label;
 	private: System::Windows::Forms::Label^  date_label;
-
-
 	private: System::Windows::Forms::Label^  bar_label;
-
 	public: System::Windows::Forms::Label^  user_label;
 	private: System::Windows::Forms::Label^  exe_label;
-	public: 
-
-	public: 
 	private: System::Windows::Forms::Panel^  list_panel;
-
 	private: System::Windows::Forms::Label^  msg_label;
 	private: System::Windows::Forms::Timer^  timer_msg;
 	private: System::Windows::Forms::Timer^  timer_exe;
@@ -72,46 +63,8 @@ namespace Action {
 	private: System::Windows::Forms::DataGridViewTextBoxColumn^  status;
 	private: System::Windows::Forms::DataGridViewTextBoxColumn^  whois;
 	private: System::Windows::Forms::DataGridViewButtonColumn^  comm;
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 	private: System::ComponentModel::IContainer^  components;
 	private: 
-
-
 
 	protected: 
 
