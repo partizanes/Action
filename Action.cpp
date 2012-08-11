@@ -108,6 +108,7 @@ Void Form1::send_button_Click(System::Object^  sender, System::EventArgs^  e)
 
 		if(old_price_box->Text == "")
 			old_price_box->Text = "0";
+
 		if(bar_box->TextLength == 5)
 			cmd = gcnew MySqlCommand("INSERT INTO `action`.`action_price`(`barcode`,`price_old`,`price_new`,`start_action`,`stop_action`,`active`) VALUES ( '"+bar_box->Text+"','"+old_price_box->Text+"','"+new_price_box->Text+"','"+dateTimePicker1->Text+"','"+dateTimePicker2->Text+"','"+i+"')", conn);
 		else

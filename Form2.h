@@ -33,6 +33,8 @@ namespace Action {
 
 	private: 
 
+	private: 
+
 	private: System::Windows::Forms::Label^  login_label;
 	protected: 
 
@@ -204,11 +206,11 @@ namespace Action {
 			this->ver_label->Font = (gcnew System::Drawing::Font(L"Mistral", 9.75F, System::Drawing::FontStyle::Regular, System::Drawing::GraphicsUnit::Point, 
 				static_cast<System::Byte>(204)));
 			this->ver_label->ForeColor = System::Drawing::Color::DodgerBlue;
-			this->ver_label->Location = System::Drawing::Point(660, 399);
+			this->ver_label->Location = System::Drawing::Point(630, 397);
 			this->ver_label->Name = L"ver_label";
-			this->ver_label->Size = System::Drawing::Size(33, 16);
+			this->ver_label->Size = System::Drawing::Size(77, 16);
 			this->ver_label->TabIndex = 6;
-			this->ver_label->Text = L"V: 0.1";
+			this->ver_label->Text = L"BY PARTIZANES";
 			// 
 			// msg_label
 			// 
