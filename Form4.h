@@ -63,6 +63,11 @@ namespace Action {
 	private: System::Windows::Forms::DataGridViewTextBoxColumn^  status;
 	private: System::Windows::Forms::DataGridViewTextBoxColumn^  whois;
 	private: System::Windows::Forms::DataGridViewButtonColumn^  comm;
+	private: System::Windows::Forms::Button^  check_button;
+	private: System::Windows::Forms::Button^  hide_button;
+	private: System::Windows::Forms::NotifyIcon^  action_ico;
+	private: System::Windows::Forms::Timer^  check_turn_timer;
+
 	private: System::ComponentModel::IContainer^  components;
 	private: 
 
@@ -98,6 +103,12 @@ namespace Action {
 			this->bar_label = (gcnew System::Windows::Forms::Label());
 			this->list_panel = (gcnew System::Windows::Forms::Panel());
 			this->dataGridView1 = (gcnew System::Windows::Forms::DataGridView());
+			this->Barcode = (gcnew System::Windows::Forms::DataGridViewTextBoxColumn());
+			this->Count = (gcnew System::Windows::Forms::DataGridViewTextBoxColumn());
+			this->date = (gcnew System::Windows::Forms::DataGridViewTextBoxColumn());
+			this->status = (gcnew System::Windows::Forms::DataGridViewTextBoxColumn());
+			this->whois = (gcnew System::Windows::Forms::DataGridViewTextBoxColumn());
+			this->comm = (gcnew System::Windows::Forms::DataGridViewButtonColumn());
 			this->name_label = (gcnew System::Windows::Forms::Label());
 			this->add_turn_button = (gcnew System::Windows::Forms::Button());
 			this->list_button = (gcnew System::Windows::Forms::Button());
@@ -106,12 +117,10 @@ namespace Action {
 			this->exe_label = (gcnew System::Windows::Forms::Label());
 			this->timer_msg = (gcnew System::Windows::Forms::Timer(this->components));
 			this->timer_exe = (gcnew System::Windows::Forms::Timer(this->components));
-			this->Barcode = (gcnew System::Windows::Forms::DataGridViewTextBoxColumn());
-			this->Count = (gcnew System::Windows::Forms::DataGridViewTextBoxColumn());
-			this->date = (gcnew System::Windows::Forms::DataGridViewTextBoxColumn());
-			this->status = (gcnew System::Windows::Forms::DataGridViewTextBoxColumn());
-			this->whois = (gcnew System::Windows::Forms::DataGridViewTextBoxColumn());
-			this->comm = (gcnew System::Windows::Forms::DataGridViewButtonColumn());
+			this->check_button = (gcnew System::Windows::Forms::Button());
+			this->hide_button = (gcnew System::Windows::Forms::Button());
+			this->action_ico = (gcnew System::Windows::Forms::NotifyIcon(this->components));
+			this->check_turn_timer = (gcnew System::Windows::Forms::Timer(this->components));
 			this->insert_turn_panel->SuspendLayout();
 			this->list_panel->SuspendLayout();
 			(cli::safe_cast<System::ComponentModel::ISupportInitialize^  >(this->dataGridView1))->BeginInit();
@@ -202,7 +211,7 @@ namespace Action {
 			this->insert_turn_panel->Controls->Add(this->count_textbox);
 			this->insert_turn_panel->Controls->Add(this->item_textbox);
 			this->insert_turn_panel->Controls->Add(this->bar_textbox);
-			this->insert_turn_panel->Location = System::Drawing::Point(667, 30);
+			this->insert_turn_panel->Location = System::Drawing::Point(705, 44);
 			this->insert_turn_panel->Name = L"insert_turn_panel";
 			this->insert_turn_panel->Size = System::Drawing::Size(515, 309);
 			this->insert_turn_panel->TabIndex = 4;
@@ -271,9 +280,9 @@ namespace Action {
 			this->list_panel->BackColor = System::Drawing::Color::Black;
 			this->list_panel->BorderStyle = System::Windows::Forms::BorderStyle::Fixed3D;
 			this->list_panel->Controls->Add(this->dataGridView1);
-			this->list_panel->Location = System::Drawing::Point(118, 44);
+			this->list_panel->Location = System::Drawing::Point(118, 30);
 			this->list_panel->Name = L"list_panel";
-			this->list_panel->Size = System::Drawing::Size(515, 309);
+			this->list_panel->Size = System::Drawing::Size(515, 323);
 			this->list_panel->TabIndex = 8;
 			this->list_panel->Visible = false;
 			// 
@@ -312,92 +321,6 @@ namespace Action {
 			this->dataGridView1->Size = System::Drawing::Size(513, 307);
 			this->dataGridView1->TabIndex = 0;
 			this->dataGridView1->CellClick += gcnew System::Windows::Forms::DataGridViewCellEventHandler(this, &Form4::dataGridView1_CellClick);
-			// 
-			// name_label
-			// 
-			this->name_label->AutoSize = true;
-			this->name_label->BackColor = System::Drawing::Color::Transparent;
-			this->name_label->Font = (gcnew System::Drawing::Font(L"Mistral", 24, System::Drawing::FontStyle::Regular, System::Drawing::GraphicsUnit::Point, 
-				static_cast<System::Byte>(204)));
-			this->name_label->ForeColor = System::Drawing::Color::DodgerBlue;
-			this->name_label->Location = System::Drawing::Point(15, 351);
-			this->name_label->Name = L"name_label";
-			this->name_label->Size = System::Drawing::Size(97, 38);
-			this->name_label->TabIndex = 4;
-			this->name_label->Text = L"ACTION";
-			// 
-			// add_turn_button
-			// 
-			this->add_turn_button->ForeColor = System::Drawing::Color::DodgerBlue;
-			this->add_turn_button->Location = System::Drawing::Point(12, 105);
-			this->add_turn_button->Name = L"add_turn_button";
-			this->add_turn_button->Size = System::Drawing::Size(100, 30);
-			this->add_turn_button->TabIndex = 0;
-			this->add_turn_button->Text = L"Добавить";
-			this->add_turn_button->UseVisualStyleBackColor = true;
-			this->add_turn_button->Click += gcnew System::EventHandler(this, &Form4::add_turn_button_Click);
-			this->add_turn_button->Enter += gcnew System::EventHandler(this, &Form4::add_turn_button_Enter);
-			this->add_turn_button->KeyDown += gcnew System::Windows::Forms::KeyEventHandler(this, &Form4::add_turn_button_KeyDown);
-			this->add_turn_button->Leave += gcnew System::EventHandler(this, &Form4::add_turn_button_Leave);
-			// 
-			// list_button
-			// 
-			this->list_button->ForeColor = System::Drawing::Color::DodgerBlue;
-			this->list_button->Location = System::Drawing::Point(12, 140);
-			this->list_button->Name = L"list_button";
-			this->list_button->Size = System::Drawing::Size(100, 30);
-			this->list_button->TabIndex = 1;
-			this->list_button->Text = L"Список";
-			this->list_button->UseVisualStyleBackColor = true;
-			this->list_button->Click += gcnew System::EventHandler(this, &Form4::list_button_Click);
-			this->list_button->Enter += gcnew System::EventHandler(this, &Form4::list_button_Enter);
-			this->list_button->Leave += gcnew System::EventHandler(this, &Form4::list_button_Leave);
-			// 
-			// back_button
-			// 
-			this->back_button->ForeColor = System::Drawing::Color::DodgerBlue;
-			this->back_button->Location = System::Drawing::Point(12, 176);
-			this->back_button->Name = L"back_button";
-			this->back_button->Size = System::Drawing::Size(100, 30);
-			this->back_button->TabIndex = 2;
-			this->back_button->Text = L"Назад";
-			this->back_button->UseVisualStyleBackColor = true;
-			this->back_button->Click += gcnew System::EventHandler(this, &Form4::back_button_Click);
-			this->back_button->Enter += gcnew System::EventHandler(this, &Form4::back_button_Enter);
-			this->back_button->Leave += gcnew System::EventHandler(this, &Form4::back_button_Leave);
-			// 
-			// user_label
-			// 
-			this->user_label->AutoEllipsis = true;
-			this->user_label->AutoSize = true;
-			this->user_label->BackColor = System::Drawing::Color::Transparent;
-			this->user_label->Font = (gcnew System::Drawing::Font(L"Microsoft Sans Serif", 9.75F));
-			this->user_label->ForeColor = System::Drawing::Color::DodgerBlue;
-			this->user_label->Location = System::Drawing::Point(604, 18);
-			this->user_label->Name = L"user_label";
-			this->user_label->Size = System::Drawing::Size(0, 16);
-			this->user_label->TabIndex = 5;
-			// 
-			// exe_label
-			// 
-			this->exe_label->AutoSize = true;
-			this->exe_label->Font = (gcnew System::Drawing::Font(L"Microsoft Sans Serif", 9.75F, System::Drawing::FontStyle::Regular, System::Drawing::GraphicsUnit::Point, 
-				static_cast<System::Byte>(204)));
-			this->exe_label->ForeColor = System::Drawing::Color::DodgerBlue;
-			this->exe_label->Location = System::Drawing::Point(118, 375);
-			this->exe_label->Name = L"exe_label";
-			this->exe_label->Size = System::Drawing::Size(45, 16);
-			this->exe_label->TabIndex = 6;
-			this->exe_label->Text = L"label5";
-			this->exe_label->Visible = false;
-			// 
-			// timer_msg
-			// 
-			this->timer_msg->Tick += gcnew System::EventHandler(this, &Form4::timer_msg_Tick);
-			// 
-			// timer_exe
-			// 
-			this->timer_exe->Tick += gcnew System::EventHandler(this, &Form4::timer_exe_Tick);
 			// 
 			// Barcode
 			// 
@@ -452,6 +375,127 @@ namespace Action {
 			this->comm->UseColumnTextForButtonValue = true;
 			this->comm->Width = 84;
 			// 
+			// name_label
+			// 
+			this->name_label->AutoSize = true;
+			this->name_label->BackColor = System::Drawing::Color::Transparent;
+			this->name_label->Font = (gcnew System::Drawing::Font(L"Mistral", 24, System::Drawing::FontStyle::Regular, System::Drawing::GraphicsUnit::Point, 
+				static_cast<System::Byte>(204)));
+			this->name_label->ForeColor = System::Drawing::Color::DodgerBlue;
+			this->name_label->Location = System::Drawing::Point(15, 351);
+			this->name_label->Name = L"name_label";
+			this->name_label->Size = System::Drawing::Size(97, 38);
+			this->name_label->TabIndex = 4;
+			this->name_label->Text = L"ACTION";
+			// 
+			// add_turn_button
+			// 
+			this->add_turn_button->ForeColor = System::Drawing::Color::DodgerBlue;
+			this->add_turn_button->Location = System::Drawing::Point(13, 84);
+			this->add_turn_button->Name = L"add_turn_button";
+			this->add_turn_button->Size = System::Drawing::Size(100, 30);
+			this->add_turn_button->TabIndex = 0;
+			this->add_turn_button->Text = L"Добавить";
+			this->add_turn_button->UseVisualStyleBackColor = true;
+			this->add_turn_button->Click += gcnew System::EventHandler(this, &Form4::add_turn_button_Click);
+			this->add_turn_button->Enter += gcnew System::EventHandler(this, &Form4::add_turn_button_Enter);
+			this->add_turn_button->KeyDown += gcnew System::Windows::Forms::KeyEventHandler(this, &Form4::add_turn_button_KeyDown);
+			this->add_turn_button->Leave += gcnew System::EventHandler(this, &Form4::add_turn_button_Leave);
+			// 
+			// list_button
+			// 
+			this->list_button->ForeColor = System::Drawing::Color::DodgerBlue;
+			this->list_button->Location = System::Drawing::Point(12, 120);
+			this->list_button->Name = L"list_button";
+			this->list_button->Size = System::Drawing::Size(100, 30);
+			this->list_button->TabIndex = 1;
+			this->list_button->Text = L"Список";
+			this->list_button->UseVisualStyleBackColor = true;
+			this->list_button->Click += gcnew System::EventHandler(this, &Form4::list_button_Click);
+			this->list_button->Enter += gcnew System::EventHandler(this, &Form4::list_button_Enter);
+			this->list_button->Leave += gcnew System::EventHandler(this, &Form4::list_button_Leave);
+			// 
+			// back_button
+			// 
+			this->back_button->ForeColor = System::Drawing::Color::DodgerBlue;
+			this->back_button->Location = System::Drawing::Point(13, 228);
+			this->back_button->Name = L"back_button";
+			this->back_button->Size = System::Drawing::Size(100, 30);
+			this->back_button->TabIndex = 4;
+			this->back_button->Text = L"Назад";
+			this->back_button->UseVisualStyleBackColor = true;
+			this->back_button->Click += gcnew System::EventHandler(this, &Form4::back_button_Click);
+			this->back_button->Enter += gcnew System::EventHandler(this, &Form4::back_button_Enter);
+			this->back_button->Leave += gcnew System::EventHandler(this, &Form4::back_button_Leave);
+			// 
+			// user_label
+			// 
+			this->user_label->AutoEllipsis = true;
+			this->user_label->AutoSize = true;
+			this->user_label->BackColor = System::Drawing::Color::Transparent;
+			this->user_label->Font = (gcnew System::Drawing::Font(L"Microsoft Sans Serif", 9.75F));
+			this->user_label->ForeColor = System::Drawing::Color::DodgerBlue;
+			this->user_label->Location = System::Drawing::Point(605, 12);
+			this->user_label->Name = L"user_label";
+			this->user_label->Size = System::Drawing::Size(0, 16);
+			this->user_label->TabIndex = 5;
+			// 
+			// exe_label
+			// 
+			this->exe_label->AutoSize = true;
+			this->exe_label->Font = (gcnew System::Drawing::Font(L"Microsoft Sans Serif", 9.75F, System::Drawing::FontStyle::Regular, System::Drawing::GraphicsUnit::Point, 
+				static_cast<System::Byte>(204)));
+			this->exe_label->ForeColor = System::Drawing::Color::DodgerBlue;
+			this->exe_label->Location = System::Drawing::Point(118, 375);
+			this->exe_label->Name = L"exe_label";
+			this->exe_label->Size = System::Drawing::Size(45, 16);
+			this->exe_label->TabIndex = 6;
+			this->exe_label->Text = L"label5";
+			this->exe_label->Visible = false;
+			// 
+			// timer_msg
+			// 
+			this->timer_msg->Tick += gcnew System::EventHandler(this, &Form4::timer_msg_Tick);
+			// 
+			// timer_exe
+			// 
+			this->timer_exe->Tick += gcnew System::EventHandler(this, &Form4::timer_exe_Tick);
+			// 
+			// check_button
+			// 
+			this->check_button->ForeColor = System::Drawing::Color::DodgerBlue;
+			this->check_button->Location = System::Drawing::Point(13, 156);
+			this->check_button->Name = L"check_button";
+			this->check_button->Size = System::Drawing::Size(100, 30);
+			this->check_button->TabIndex = 2;
+			this->check_button->Text = L"Проверка";
+			this->check_button->UseVisualStyleBackColor = true;
+			this->check_button->Click += gcnew System::EventHandler(this, &Form4::check_button_Click);
+			// 
+			// hide_button
+			// 
+			this->hide_button->ForeColor = System::Drawing::Color::DodgerBlue;
+			this->hide_button->Location = System::Drawing::Point(13, 192);
+			this->hide_button->Name = L"hide_button";
+			this->hide_button->Size = System::Drawing::Size(100, 30);
+			this->hide_button->TabIndex = 3;
+			this->hide_button->Text = L"Свернуть";
+			this->hide_button->UseVisualStyleBackColor = true;
+			this->hide_button->Click += gcnew System::EventHandler(this, &Form4::hide_button_Click);
+			// 
+			// action_ico
+			// 
+			this->action_ico->Icon = (cli::safe_cast<System::Drawing::Icon^  >(resources->GetObject(L"action_ico.Icon")));
+			this->action_ico->Text = L"Action";
+			this->action_ico->Visible = true;
+			this->action_ico->MouseDoubleClick += gcnew System::Windows::Forms::MouseEventHandler(this, &Form4::action_ico_MouseDoubleClick);
+			// 
+			// check_turn_timer
+			// 
+			this->check_turn_timer->Enabled = true;
+			this->check_turn_timer->Interval = 60000;
+			this->check_turn_timer->Tick += gcnew System::EventHandler(this, &Form4::check_turn_timer_Tick);
+			// 
 			// Form4
 			// 
 			this->AutoScaleDimensions = System::Drawing::SizeF(6, 13);
@@ -461,6 +505,8 @@ namespace Action {
 			this->BackgroundImage = (cli::safe_cast<System::Drawing::Image^  >(resources->GetObject(L"$this.BackgroundImage")));
 			this->BackgroundImageLayout = System::Windows::Forms::ImageLayout::Stretch;
 			this->ClientSize = System::Drawing::Size(719, 424);
+			this->Controls->Add(this->hide_button);
+			this->Controls->Add(this->check_button);
 			this->Controls->Add(this->list_panel);
 			this->Controls->Add(this->exe_label);
 			this->Controls->Add(this->user_label);
@@ -542,6 +588,9 @@ private: System::Void list_button_Click(System::Object^  sender, System::EventAr
 		 }
 private: System::Void set_msg_on_timer(String^ text);
 private: System::Void set_exe_on_timer(String^ text);
+private: System::Void check_turn_circle();
+private: System::Void warning_sale_final(String^ bar);
+private: System::Void check_turn(String^ bar,String^ count,DateTime^ date);
 private: System::Void query(String^ bar);
 private: System::Void bar_textbox_Enter(System::Object^  sender, System::EventArgs^  e) {
 			 bar_label->ForeColor = Color::Green;
@@ -713,5 +762,23 @@ private: System::Void add_turn_button_KeyDown(System::Object^  sender, System::W
 			  }
 		 }
 private: System::Void dataGridView1_CellClick(System::Object^  sender, System::Windows::Forms::DataGridViewCellEventArgs^  e);
+private: System::Void action_ico_MouseDoubleClick(System::Object^  sender, System::Windows::Forms::MouseEventArgs^  e)
+		 {
+			 this->Show();
+			 action_ico->Visible = false;
+		 }
+private: System::Void hide_button_Click(System::Object^  sender, System::EventArgs^  e)
+		 {
+			 this->Hide();
+			 action_ico->Visible = true;
+		 }
+private: System::Void check_button_Click(System::Object^  sender, System::EventArgs^  e)
+		 {
+			 check_turn_circle();
+		 }
+private: System::Void check_turn_timer_Tick(System::Object^  sender, System::EventArgs^  e) 
+		 {
+			 check_turn_circle();
+		 }
 };
 }

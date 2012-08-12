@@ -5,6 +5,7 @@
 #include <windows.h>
 
 using namespace Action;
+using namespace System::Globalization;
 
 Void Form4::back_button_Click(System::Object^  sender, System::EventArgs^  e)
 		 {
@@ -296,3 +297,109 @@ Void Form4::clean_textboxs()
 	bar_textbox->Text = "";
 	item_textbox->Text = "";
 }
+
+Void Form4::check_turn_circle()
+{
+	char buf[50];
+
+	GetPrivateProfileString("SETTINGS", "srv_local","192.168.1.11",buf,sizeof(buf),Form1::SystemStringToChar(Environment::CurrentDirectory+"\\config.ini"));
+
+	String^ connStr = String::Format("server={0};uid={1};pwd={2};database={3};",
+		Form1::CharToSystemString(buf), "root", "***REMOVED***", "action");
+
+	conn = gcnew MySqlConnection(connStr);
+
+	MySqlDataReader^ reader = nullptr;
+
+	try
+	{
+		conn->Open();
+
+		cmd = gcnew MySqlCommand("SELECT barcode,count,date FROM priority WHERE status = '1'", conn);
+
+		MySqlDataReader^ reader = cmd->ExecuteReader();
+
+		while(reader->Read())
+		{
+			 check_turn(reader->GetString(0),reader->GetString(1),reader->GetDateTime(2));
+		}
+	}
+
+	catch (Exception^ exc)
+	{
+		//TODO
+		MessageBox::Show("Exception: " + exc->Message);
+	}
+
+	finally
+	{
+		if (reader != nullptr)
+			reader->Close();
+	}
+}
+
+Void Form4::check_turn(String^ bar,String^ count,DateTime^ date)
+{
+	char buf[50];
+	String^ sale;
+
+	CultureInfo^ myCI = gcnew CultureInfo( "ja-JP",false );
+
+	String^ EntryDate = (gcnew DateTime())->Now.ToString(myCI)->Replace("/","-");
+
+	GetPrivateProfileString("SETTINGS", "srv_global","192.168.1.100",buf,sizeof(buf),Form1::SystemStringToChar(Environment::CurrentDirectory+"\\config.ini"));
+
+	String^ connStr = String::Format("server={0};uid={1};pwd={2};database={3};",
+		Form1::CharToSystemString(buf), "admin", "12345", "ukmserver");
+
+	conn = gcnew MySqlConnection(connStr);
+
+	MySqlDataReader^ reader = nullptr;
+
+	try
+	{
+		conn->Open();
+
+		cmd = gcnew MySqlCommand("SELECT \n"
+			"SUM(IF(h.type IN (0,5), 1, -1) * i.quantity) quantity \n"
+			"FROM trm_in_pos c INNER JOIN \n"
+			"trm_out_receipt_header h ON h.cash_id = c.cash_id INNER JOIN \n"
+			"trm_out_receipt_item i ON i.cash_id = h.cash_id AND i.receipt_header = h.id  LEFT JOIN \n"
+			"trm_out_receipt_item i2 ON (h.cash_id = i2.cash_id AND h.id = i2.receipt_header AND i2.link_item = i.id) INNER JOIN \n"
+			"trm_out_receipt_footer f ON f.cash_id = h.cash_id AND f.id = h.id \n"
+			"WHERE i2.link_item IS NULL AND i.type = 0 AND \n"
+			"h.type IN (0,5,1,4) AND f.result IN (0) AND 1001 = c.store_id AND i.item LIKE '"+bar+"%' AND (f.date >= '"+date->ToString(myCI)->Replace("/","-")+"' AND f.date <= '"+EntryDate+"' )", conn);
+
+		MySqlDataReader^ reader = cmd->ExecuteReader();
+
+
+		while(reader->Read())
+		{
+			//MAYBE THIS NEED CHECK FOR NULL
+			sale = reader->GetString(0);
+		}
+	}
+
+	catch (Exception^ exc)
+	{
+		//TODO
+		MessageBox::Show("Exception: " + exc->Message);
+	}
+
+	finally
+	{
+		if (reader != nullptr)
+			reader->Close();
+
+		if ((Convert::ToDouble(sale) >= Convert::ToDouble(count)))
+		{
+			warning_sale_final(bar);
+		}
+	}
+}
+
+Void Form4::warning_sale_final(String^ bar)
+{
+	MessageBox::Show("Внимание: товар "+bar+" продан!" );
+	Form1::log_write(user_label->Text+"] Товар продан: "+bar,"SALE","sale");
+};
