@@ -4,6 +4,9 @@
 #include "Form4.h"
 #include <windows.h>
 
+int xOffset4, yOffset4;
+bool isMouseDown4 = false;
+
 using namespace Action;
 using namespace System::Globalization;
 
@@ -93,6 +96,9 @@ Void Form4::query(String^ bar)
 	{
 		if (reader != nullptr)
 			reader->Close();
+
+		if(conn->State  == ConnectionState::Open)
+			conn->Close();
 	}
 }
 
@@ -148,6 +154,9 @@ Void Form4::turn_insert_query()
 	{
 		if (reader != nullptr)
 			reader->Close();
+
+		if(conn->State  == ConnectionState::Open)
+			conn->Close();
 
 		if(stat)
 		{
@@ -209,6 +218,9 @@ Void Form4::load_list_panel()
 	{
 		if (reader != nullptr)
 			reader->Close();
+
+		if(conn->State  == ConnectionState::Open)
+			conn->Close();
 	}
 }
 
@@ -248,6 +260,9 @@ Void Form4::query_delete(String^ val)
 	{
 		if (reader != nullptr)
 			reader->Close();
+
+		if(conn->State  == ConnectionState::Open)
+			conn->Close();
 
 		if(stat)
 		{
@@ -335,6 +350,9 @@ Void Form4::check_turn_circle()
 	{
 		if (reader != nullptr)
 			reader->Close();
+
+		if(conn->State  == ConnectionState::Open)
+			conn->Close();
 	}
 }
 
@@ -391,6 +409,9 @@ Void Form4::check_turn(String^ bar,String^ count,DateTime^ date)
 		if (reader != nullptr)
 			reader->Close();
 
+		if(conn->State  == ConnectionState::Open)
+			conn->Close();
+
 		if ((Convert::ToDouble(sale) >= Convert::ToDouble(count)))
 		{
 			warning_sale_final(bar);
@@ -403,3 +424,29 @@ Void Form4::warning_sale_final(String^ bar)
 	MessageBox::Show("Внимание: товар "+bar+" продан!" );
 	Form1::log_write(user_label->Text+"] Товар продан: "+bar,"SALE","sale");
 };
+
+Void Form4::Form4_MouseDown(System::Object^  sender, System::Windows::Forms::MouseEventArgs^  e)
+{
+	if (e->Button == Windows::Forms::MouseButtons::Left)
+	{
+		xOffset4 = - e->X - SystemInformation::FrameBorderSize.Width;
+		yOffset4 = - e->Y - SystemInformation::FrameBorderSize.Height;
+		mouseOffset = System::Drawing::Point(xOffset4, yOffset4);
+		isMouseDown4 = true;
+	}
+}
+
+Void Form4::Form4_MouseMove(System::Object^  sender, System::Windows::Forms::MouseEventArgs^  e)
+{
+	if(isMouseDown4)
+	{
+		Point mousePos = Control::MousePosition;
+		mousePos.Offset(mouseOffset.X, mouseOffset.Y);
+		Location = mousePos;
+	}
+}
+
+Void Form4::Form4_MouseUp(System::Object^  sender, System::Windows::Forms::MouseEventArgs^  e)
+{
+	isMouseDown4 = false;
+}

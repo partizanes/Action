@@ -67,6 +67,7 @@ namespace Action {
 	private: System::Windows::Forms::Button^  hide_button;
 	private: System::Windows::Forms::NotifyIcon^  action_ico;
 	private: System::Windows::Forms::Timer^  check_turn_timer;
+	private: Point mouseOffset;
 
 	private: System::ComponentModel::IContainer^  components;
 	private: 
@@ -87,8 +88,8 @@ namespace Action {
 		void InitializeComponent(void)
 		{
 			this->components = (gcnew System::ComponentModel::Container());
-			System::Windows::Forms::DataGridViewCellStyle^  dataGridViewCellStyle1 = (gcnew System::Windows::Forms::DataGridViewCellStyle());
-			System::Windows::Forms::DataGridViewCellStyle^  dataGridViewCellStyle2 = (gcnew System::Windows::Forms::DataGridViewCellStyle());
+			System::Windows::Forms::DataGridViewCellStyle^  dataGridViewCellStyle7 = (gcnew System::Windows::Forms::DataGridViewCellStyle());
+			System::Windows::Forms::DataGridViewCellStyle^  dataGridViewCellStyle8 = (gcnew System::Windows::Forms::DataGridViewCellStyle());
 			System::ComponentModel::ComponentResourceManager^  resources = (gcnew System::ComponentModel::ComponentResourceManager(Form4::typeid));
 			this->bar_textbox = (gcnew System::Windows::Forms::TextBox());
 			this->dateTimePicker1 = (gcnew System::Windows::Forms::DateTimePicker());
@@ -292,27 +293,27 @@ namespace Action {
 			this->dataGridView1->AllowUserToDeleteRows = false;
 			this->dataGridView1->AllowUserToOrderColumns = true;
 			this->dataGridView1->BackgroundColor = System::Drawing::Color::Black;
-			dataGridViewCellStyle1->Alignment = System::Windows::Forms::DataGridViewContentAlignment::MiddleCenter;
-			dataGridViewCellStyle1->BackColor = System::Drawing::SystemColors::Control;
-			dataGridViewCellStyle1->Font = (gcnew System::Drawing::Font(L"Microsoft Sans Serif", 8.25F, System::Drawing::FontStyle::Regular, 
+			dataGridViewCellStyle7->Alignment = System::Windows::Forms::DataGridViewContentAlignment::MiddleCenter;
+			dataGridViewCellStyle7->BackColor = System::Drawing::SystemColors::Control;
+			dataGridViewCellStyle7->Font = (gcnew System::Drawing::Font(L"Microsoft Sans Serif", 8.25F, System::Drawing::FontStyle::Regular, 
 				System::Drawing::GraphicsUnit::Point, static_cast<System::Byte>(204)));
-			dataGridViewCellStyle1->ForeColor = System::Drawing::SystemColors::WindowText;
-			dataGridViewCellStyle1->SelectionBackColor = System::Drawing::SystemColors::Highlight;
-			dataGridViewCellStyle1->SelectionForeColor = System::Drawing::SystemColors::HighlightText;
-			dataGridViewCellStyle1->WrapMode = System::Windows::Forms::DataGridViewTriState::True;
-			this->dataGridView1->ColumnHeadersDefaultCellStyle = dataGridViewCellStyle1;
+			dataGridViewCellStyle7->ForeColor = System::Drawing::SystemColors::WindowText;
+			dataGridViewCellStyle7->SelectionBackColor = System::Drawing::SystemColors::Highlight;
+			dataGridViewCellStyle7->SelectionForeColor = System::Drawing::SystemColors::HighlightText;
+			dataGridViewCellStyle7->WrapMode = System::Windows::Forms::DataGridViewTriState::True;
+			this->dataGridView1->ColumnHeadersDefaultCellStyle = dataGridViewCellStyle7;
 			this->dataGridView1->ColumnHeadersHeightSizeMode = System::Windows::Forms::DataGridViewColumnHeadersHeightSizeMode::AutoSize;
 			this->dataGridView1->Columns->AddRange(gcnew cli::array< System::Windows::Forms::DataGridViewColumn^  >(6) {this->Barcode, 
 				this->Count, this->date, this->status, this->whois, this->comm});
-			dataGridViewCellStyle2->Alignment = System::Windows::Forms::DataGridViewContentAlignment::MiddleCenter;
-			dataGridViewCellStyle2->BackColor = System::Drawing::SystemColors::Window;
-			dataGridViewCellStyle2->Font = (gcnew System::Drawing::Font(L"Microsoft Sans Serif", 8.25F, System::Drawing::FontStyle::Regular, 
+			dataGridViewCellStyle8->Alignment = System::Windows::Forms::DataGridViewContentAlignment::MiddleCenter;
+			dataGridViewCellStyle8->BackColor = System::Drawing::SystemColors::Window;
+			dataGridViewCellStyle8->Font = (gcnew System::Drawing::Font(L"Microsoft Sans Serif", 8.25F, System::Drawing::FontStyle::Regular, 
 				System::Drawing::GraphicsUnit::Point, static_cast<System::Byte>(204)));
-			dataGridViewCellStyle2->ForeColor = System::Drawing::SystemColors::ControlText;
-			dataGridViewCellStyle2->SelectionBackColor = System::Drawing::Color::DodgerBlue;
-			dataGridViewCellStyle2->SelectionForeColor = System::Drawing::Color::Black;
-			dataGridViewCellStyle2->WrapMode = System::Windows::Forms::DataGridViewTriState::False;
-			this->dataGridView1->DefaultCellStyle = dataGridViewCellStyle2;
+			dataGridViewCellStyle8->ForeColor = System::Drawing::SystemColors::ControlText;
+			dataGridViewCellStyle8->SelectionBackColor = System::Drawing::Color::DodgerBlue;
+			dataGridViewCellStyle8->SelectionForeColor = System::Drawing::Color::Black;
+			dataGridViewCellStyle8->WrapMode = System::Windows::Forms::DataGridViewTriState::False;
+			this->dataGridView1->DefaultCellStyle = dataGridViewCellStyle8;
 			this->dataGridView1->GridColor = System::Drawing::Color::Maroon;
 			this->dataGridView1->Location = System::Drawing::Point(-1, -1);
 			this->dataGridView1->Name = L"dataGridView1";
@@ -471,6 +472,8 @@ namespace Action {
 			this->check_button->Text = L"Проверка";
 			this->check_button->UseVisualStyleBackColor = true;
 			this->check_button->Click += gcnew System::EventHandler(this, &Form4::check_button_Click);
+			this->check_button->Enter += gcnew System::EventHandler(this, &Form4::check_button_Enter);
+			this->check_button->Leave += gcnew System::EventHandler(this, &Form4::check_button_Leave);
 			// 
 			// hide_button
 			// 
@@ -482,6 +485,8 @@ namespace Action {
 			this->hide_button->Text = L"Свернуть";
 			this->hide_button->UseVisualStyleBackColor = true;
 			this->hide_button->Click += gcnew System::EventHandler(this, &Form4::hide_button_Click);
+			this->hide_button->Enter += gcnew System::EventHandler(this, &Form4::hide_button_Enter);
+			this->hide_button->Leave += gcnew System::EventHandler(this, &Form4::hide_button_Leave);
 			// 
 			// action_ico
 			// 
@@ -527,6 +532,9 @@ namespace Action {
 				static_cast<System::Int32>(static_cast<System::Byte>(0)));
 			this->FormClosed += gcnew System::Windows::Forms::FormClosedEventHandler(this, &Form4::Form4_FormClosed);
 			this->Load += gcnew System::EventHandler(this, &Form4::Form4_Load);
+			this->MouseDown += gcnew System::Windows::Forms::MouseEventHandler(this, &Form4::Form4_MouseDown);
+			this->MouseMove += gcnew System::Windows::Forms::MouseEventHandler(this, &Form4::Form4_MouseMove);
+			this->MouseUp += gcnew System::Windows::Forms::MouseEventHandler(this, &Form4::Form4_MouseUp);
 			this->insert_turn_panel->ResumeLayout(false);
 			this->insert_turn_panel->PerformLayout();
 			this->list_panel->ResumeLayout(false);
@@ -730,30 +738,6 @@ private: System::Void insert_turn_panel_VisibleChanged(System::Object^  sender, 
 			 }
 		 }
 private: System::Void Form4_FormClosed(System::Object^  sender, System::Windows::Forms::FormClosedEventArgs^  e);
-private: System::Void add_turn_button_Enter(System::Object^  sender, System::EventArgs^  e)
-		 {
-			 add_turn_button->ForeColor = Color::Green;
-		 }
-private: System::Void add_turn_button_Leave(System::Object^  sender, System::EventArgs^  e)
-		 {
-			 add_turn_button->ForeColor = Color::DodgerBlue;
-		 }
-private: System::Void list_button_Enter(System::Object^  sender, System::EventArgs^  e)
-		 {
-			list_button->ForeColor = Color::Green;
-		 }
-private: System::Void list_button_Leave(System::Object^  sender, System::EventArgs^  e)
-		 {
-			 list_button->ForeColor = Color::DodgerBlue;
-		 }
-private: System::Void back_button_Enter(System::Object^  sender, System::EventArgs^  e)
-		 {
-			 back_button->ForeColor = Color::Green;
-		 }
-private: System::Void back_button_Leave(System::Object^  sender, System::EventArgs^  e)
-		 {
-			 back_button->ForeColor = Color::DodgerBlue;
-		 }
 private: System::Void add_turn_button_KeyDown(System::Object^  sender, System::Windows::Forms::KeyEventArgs^  e)
 		 {
 			  if (e->KeyCode == Keys::Right)
@@ -779,6 +763,89 @@ private: System::Void check_button_Click(System::Object^  sender, System::EventA
 private: System::Void check_turn_timer_Tick(System::Object^  sender, System::EventArgs^  e) 
 		 {
 			 check_turn_circle();
+		 }
+private: System::Void Form4_MouseMove(System::Object^  sender, System::Windows::Forms::MouseEventArgs^  e);
+private: System::Void Form4_MouseDown(System::Object^  sender, System::Windows::Forms::MouseEventArgs^  e);
+private: System::Void Form4_MouseUp(System::Object^  sender, System::Windows::Forms::MouseEventArgs^  e);
+
+private: System::Void add_turn_button_Enter(System::Object^  sender, System::EventArgs^  e)
+		 {
+			 add_turn_button->ForeColor = Color::Green;
+
+			 add_turn_button->Font = (gcnew System::Drawing::Font(L"Microsoft Sans Serif", 9.75F, System::Drawing::FontStyle::Regular, System::Drawing::GraphicsUnit::Point, 
+				 static_cast<System::Byte>(204)));
+		 }
+
+private: System::Void add_turn_button_Leave(System::Object^  sender, System::EventArgs^  e)
+		 {
+			 add_turn_button->ForeColor = Color::DodgerBlue;
+
+			 add_turn_button->Font = (gcnew System::Drawing::Font(L"Microsoft Sans Serif", 9.75F, System::Drawing::FontStyle::Italic, System::Drawing::GraphicsUnit::Point, 
+				 static_cast<System::Byte>(204)));
+		 }
+
+private: System::Void list_button_Enter(System::Object^  sender, System::EventArgs^  e)
+		 {
+			 list_button->ForeColor = Color::Green;
+
+			 list_button->Font = (gcnew System::Drawing::Font(L"Microsoft Sans Serif", 9.75F, System::Drawing::FontStyle::Italic, System::Drawing::GraphicsUnit::Point, 
+				 static_cast<System::Byte>(204)));
+		 }
+
+private: System::Void list_button_Leave(System::Object^  sender, System::EventArgs^  e)
+		 {
+			 list_button->ForeColor = Color::DodgerBlue;
+
+			 list_button->Font = (gcnew System::Drawing::Font(L"Microsoft Sans Serif", 9.75F, System::Drawing::FontStyle::Regular, System::Drawing::GraphicsUnit::Point, 
+				 static_cast<System::Byte>(204)));
+		 }
+
+private: System::Void back_button_Enter(System::Object^  sender, System::EventArgs^  e)
+		 {
+			 back_button->ForeColor = Color::Green;
+
+			 back_button->Font = (gcnew System::Drawing::Font(L"Microsoft Sans Serif", 9.75F, System::Drawing::FontStyle::Italic, System::Drawing::GraphicsUnit::Point, 
+				 static_cast<System::Byte>(204)));
+		 }
+
+private: System::Void back_button_Leave(System::Object^  sender, System::EventArgs^  e)
+		 {
+			 back_button->ForeColor = Color::DodgerBlue;
+
+			 back_button->Font = (gcnew System::Drawing::Font(L"Microsoft Sans Serif", 9.75F, System::Drawing::FontStyle::Regular, System::Drawing::GraphicsUnit::Point, 
+				 static_cast<System::Byte>(204)));
+		 }
+
+private: System::Void hide_button_Enter(System::Object^  sender, System::EventArgs^  e)
+		 {
+			 hide_button->ForeColor = Color::Green;
+
+			 hide_button->Font = (gcnew System::Drawing::Font(L"Microsoft Sans Serif", 9.75F, System::Drawing::FontStyle::Italic, System::Drawing::GraphicsUnit::Point, 
+				 static_cast<System::Byte>(204)));
+		 }
+
+private: System::Void hide_button_Leave(System::Object^  sender, System::EventArgs^  e)
+		 {
+			 hide_button->ForeColor = Color::DodgerBlue;
+
+			 hide_button->Font = (gcnew System::Drawing::Font(L"Microsoft Sans Serif", 9.75F, System::Drawing::FontStyle::Regular, System::Drawing::GraphicsUnit::Point, 
+				 static_cast<System::Byte>(204)));
+		 }
+
+private: System::Void check_button_Enter(System::Object^  sender, System::EventArgs^  e)
+		 {
+			 check_button->ForeColor = Color::Green;
+
+			 check_button->Font = (gcnew System::Drawing::Font(L"Microsoft Sans Serif", 9.75F, System::Drawing::FontStyle::Italic, System::Drawing::GraphicsUnit::Point, 
+				 static_cast<System::Byte>(204)));
+		 }
+
+private: System::Void check_button_Leave(System::Object^  sender, System::EventArgs^  e)
+		 {
+			 check_button->ForeColor = Color::DodgerBlue;
+
+			 check_button->Font = (gcnew System::Drawing::Font(L"Microsoft Sans Serif", 9.75F, System::Drawing::FontStyle::Regular, System::Drawing::GraphicsUnit::Point, 
+				 static_cast<System::Byte>(204)));
 		 }
 };
 }

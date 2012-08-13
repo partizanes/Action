@@ -132,6 +132,9 @@ Void Form1::send_button_Click(System::Object^  sender, System::EventArgs^  e)
  		if (reader != nullptr)
  			reader->Close();
 
+		if(conn->State  == ConnectionState::Open)
+			conn->Close();
+
 		send_label->ForeColor = Color::Green ;
 		send_label->Text = "Успешно";
 
@@ -145,6 +148,7 @@ Void Form1::send_button_Click(System::Object^  sender, System::EventArgs^  e)
 			log_write(bar_box->Text+"  "+true_bar_box->Text+"  "+name_box->Text+"  "+old_price_box->Text+"  "+new_price_box->Text+"  "+dateTimePicker1->Text+"  "+dateTimePicker2->Text+"  "+"Отклонено","query","Action");
 			listBox1->Items->Add (bar_box->Text+"  "+true_bar_box->Text+"  "+name_box->Text+"  "+old_price_box->Text+"  "+new_price_box->Text+"  "+dateTimePicker1->Text+"  "+dateTimePicker2->Text+"  "+"Отклонено");
 		}
+
 		s_status_timer->Enabled = true;
 		listBox1->SelectedIndex = listBox1->Items->Count - 1;
 
@@ -376,6 +380,9 @@ Void Form1::query(String^ bar)
 	{
 		if (reader != nullptr)
 			reader->Close();
+
+		if(conn->State  == ConnectionState::Open)
+			conn->Close();
 	}
 }
 
@@ -424,6 +431,7 @@ String^ Form1::CharToSystemString(char* ch)
 Boolean Form1::mysqlcheck()
 {
 	char buf[50];
+	bool par;
 
 	GetPrivateProfileString("SETTINGS", "srv_global","192.168.1.100",buf,sizeof(buf),SystemStringToChar(Environment::CurrentDirectory+"\\config.ini"));
 
@@ -437,19 +445,23 @@ Boolean Form1::mysqlcheck()
 	try
 	{
 		conn->Open();
-		return true;
+		par = true;
 	}
 
 	catch (Exception^ exc)
 	{
 		MessageBox::Show("Exception: " + exc->Message);
-		return false;
+		par = false;
 	}
 
 	finally
 	{
 		if (reader != nullptr)
 			reader->Close();
+
+		if(conn->State  == ConnectionState::Open)
+			conn->Close();
 	}
 
+	return par;
 }

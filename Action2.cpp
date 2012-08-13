@@ -242,7 +242,11 @@ bool Form2::Auth(String^ login, String^ pass)
 	{
 		if (reader != nullptr)
 			reader->Close();
+
+		if(conn->State  == ConnectionState::Open)
+			conn->Close();
 	}
+
 	return authok;
 }
 
