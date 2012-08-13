@@ -22,6 +22,7 @@ Void Form4::back_button_Click(System::Object^  sender, System::EventArgs^  e)
 Void Form4::Form4_Load(System::Object^  sender, System::EventArgs^  e)
 {
 	user_label->Text = Form1::global_username;
+	exe_label->Text = "";
 
 	dataGridView1->DefaultCellStyle->SelectionBackColor = System::Drawing::SystemColors::HighlightText;
 	dataGridView1->DefaultCellStyle->SelectionForeColor = System::Drawing::SystemColors::Desktop;
@@ -40,6 +41,8 @@ Void Form4::set_exe_on_timer(String^ text)
 	timer_exe->Interval = 3000;
 	timer_exe->Enabled = true;
 	exe_label->Text = text;
+
+	Form1::log_write(text,"EXCEPTION","exception");
 }
 
 Void Form4::query(String^ bar)
@@ -210,8 +213,7 @@ Void Form4::load_list_panel()
 
 	catch (Exception^ exc)
 	{
-		//TODO
-		MessageBox::Show("Exception: " + exc->Message);
+		set_exe_on_timer(exc->Message);
 	}
 
 	finally
@@ -251,7 +253,7 @@ Void Form4::query_delete(String^ val)
 
 	catch (Exception^ exc)
 	{
-		MessageBox::Show("Exception: " + exc->Message);
+		set_exe_on_timer(exc->Message);
 
 		stat = false;
 	}
@@ -342,8 +344,7 @@ Void Form4::check_turn_circle()
 
 	catch (Exception^ exc)
 	{
-		//TODO
-		MessageBox::Show("Exception: " + exc->Message);
+		set_exe_on_timer(exc->Message);
 	}
 
 	finally
@@ -393,15 +394,19 @@ Void Form4::check_turn(String^ bar,String^ count,DateTime^ date)
 
 		while(reader->Read())
 		{
-			//MAYBE THIS NEED CHECK FOR NULL
+			if(reader->IsDBNull(0))
+			{
+				Form1::log_write(bar+" "+date->ToString(myCI)->Replace("/","-")+" "+EntryDate,"NOTSALE","notsale");
+				    return;
+			}
+
 			sale = reader->GetString(0);
 		}
 	}
 
 	catch (Exception^ exc)
 	{
-		//TODO
-		MessageBox::Show("Exception: " + exc->Message);
+		set_exe_on_timer(exc->Message);
 	}
 
 	finally
