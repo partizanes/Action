@@ -33,7 +33,6 @@ Void Form4::set_msg_on_timer(String^ text)
 	timer_msg->Interval = 3000;
 	timer_msg->Enabled = true;
 	msg_label->Text = text;
-	msg_label->ForeColor = Color::DodgerBlue;
 }
 
 Void Form4::set_exe_on_timer(String^ text)
@@ -62,6 +61,7 @@ Void Form4::query(String^ bar)
 	{
 		conn->Open();
 
+		//MB THIS NEED FOR CHECK COUNT NUBER IN `bar` 12 OR 13 (for 13 not work)
 		cmd = gcnew MySqlCommand("SELECT a.name \n"
 			"FROM trm_in_var C \n"
 			"LEFT JOIN trm_in_items A ON A.id=C.item \n"
@@ -79,7 +79,7 @@ Void Form4::query(String^ bar)
 		else
 		{
 			msg_label->ForeColor = Color::Red;
-			msg_label->Text = "Не найдено!";
+			set_msg_on_timer("              Не найдено!");
 
 			clean_textboxs();
 
@@ -207,7 +207,7 @@ Void Form4::load_list_panel()
 
 		while(reader->Read())
 		{
-			dataGridView1->Rows->Add(reader->GetString(0),reader->GetString(1),reader->GetString(2),reader->GetString(3),reader->GetString(4));
+			dataGridView1->Rows->Add(reader->GetString(0),reader->GetString(1),reader->GetString(2),reader->GetInt32(3),reader->GetString(4));
 		}
 	}
 
@@ -283,7 +283,8 @@ Void Form4::dataGridView1_CellClick(System::Object^  sender, System::Windows::Fo
 	{
 		String^ val = Convert::ToString(this->dataGridView1->CurrentRow->Cells[0]->Value);
 
-		if((Convert::ToInt32(this->dataGridView1->CurrentRow->Cells[3]->Value)) == 1)
+		//this need  to fxd
+		if((Convert::ToString(this->dataGridView1->CurrentRow->Cells[3]->Value)) == "В очереди")
 		{
 			String^ message = "Товар еще не продан,вы действительно хотите снять его с очереди?";
 			String^ caption = "Внимание";
@@ -296,12 +297,10 @@ Void Form4::dataGridView1_CellClick(System::Object^  sender, System::Windows::Fo
 			if ( result == ::DialogResult::Yes )
 			{
 				query_delete(val);
+				Form1::log_write(val,"DELETE","deleted");
 			}
 			else
-			{
-				//TODO
 				return;
-			}
 		}
 		else
 			query_delete(val);
