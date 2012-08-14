@@ -57,17 +57,17 @@ namespace Action {
 	private: System::Windows::Forms::Timer^  timer_msg;
 	private: System::Windows::Forms::Timer^  timer_exe;
 	private: System::Windows::Forms::DataGridView^  dataGridView1;
+	private: System::Windows::Forms::Button^  check_button;
+	private: System::Windows::Forms::Button^  hide_button;
+	private: System::Windows::Forms::NotifyIcon^  action_ico;
+	private: System::Windows::Forms::Timer^  check_turn_timer;
+	private: Point mouseOffset;
 	private: System::Windows::Forms::DataGridViewTextBoxColumn^  Barcode;
 	private: System::Windows::Forms::DataGridViewTextBoxColumn^  Count;
 	private: System::Windows::Forms::DataGridViewTextBoxColumn^  date;
 	private: System::Windows::Forms::DataGridViewTextBoxColumn^  status;
 	private: System::Windows::Forms::DataGridViewTextBoxColumn^  whois;
 	private: System::Windows::Forms::DataGridViewButtonColumn^  comm;
-	private: System::Windows::Forms::Button^  check_button;
-	private: System::Windows::Forms::Button^  hide_button;
-	private: System::Windows::Forms::NotifyIcon^  action_ico;
-	private: System::Windows::Forms::Timer^  check_turn_timer;
-	private: Point mouseOffset;
 
 	private: System::ComponentModel::IContainer^  components;
 	private: 
@@ -88,8 +88,8 @@ namespace Action {
 		void InitializeComponent(void)
 		{
 			this->components = (gcnew System::ComponentModel::Container());
-			System::Windows::Forms::DataGridViewCellStyle^  dataGridViewCellStyle3 = (gcnew System::Windows::Forms::DataGridViewCellStyle());
-			System::Windows::Forms::DataGridViewCellStyle^  dataGridViewCellStyle4 = (gcnew System::Windows::Forms::DataGridViewCellStyle());
+			System::Windows::Forms::DataGridViewCellStyle^  dataGridViewCellStyle1 = (gcnew System::Windows::Forms::DataGridViewCellStyle());
+			System::Windows::Forms::DataGridViewCellStyle^  dataGridViewCellStyle2 = (gcnew System::Windows::Forms::DataGridViewCellStyle());
 			System::ComponentModel::ComponentResourceManager^  resources = (gcnew System::ComponentModel::ComponentResourceManager(Form4::typeid));
 			this->bar_textbox = (gcnew System::Windows::Forms::TextBox());
 			this->dateTimePicker1 = (gcnew System::Windows::Forms::DateTimePicker());
@@ -132,7 +132,7 @@ namespace Action {
 			this->bar_textbox->Font = (gcnew System::Drawing::Font(L"Microsoft Sans Serif", 18, System::Drawing::FontStyle::Regular, System::Drawing::GraphicsUnit::Point, 
 				static_cast<System::Byte>(204)));
 			this->bar_textbox->Location = System::Drawing::Point(83, 124);
-			this->bar_textbox->MaxLength = 13;
+			this->bar_textbox->MaxLength = 12;
 			this->bar_textbox->Name = L"bar_textbox";
 			this->bar_textbox->Size = System::Drawing::Size(178, 35);
 			this->bar_textbox->TabIndex = 0;
@@ -212,7 +212,7 @@ namespace Action {
 			this->insert_turn_panel->Controls->Add(this->count_textbox);
 			this->insert_turn_panel->Controls->Add(this->item_textbox);
 			this->insert_turn_panel->Controls->Add(this->bar_textbox);
-			this->insert_turn_panel->Location = System::Drawing::Point(705, 44);
+			this->insert_turn_panel->Location = System::Drawing::Point(684, 84);
 			this->insert_turn_panel->Name = L"insert_turn_panel";
 			this->insert_turn_panel->Size = System::Drawing::Size(515, 309);
 			this->insert_turn_panel->TabIndex = 4;
@@ -293,27 +293,27 @@ namespace Action {
 			this->dataGridView1->AllowUserToDeleteRows = false;
 			this->dataGridView1->AllowUserToOrderColumns = true;
 			this->dataGridView1->BackgroundColor = System::Drawing::Color::Black;
-			dataGridViewCellStyle3->Alignment = System::Windows::Forms::DataGridViewContentAlignment::MiddleCenter;
-			dataGridViewCellStyle3->BackColor = System::Drawing::SystemColors::Control;
-			dataGridViewCellStyle3->Font = (gcnew System::Drawing::Font(L"Microsoft Sans Serif", 8.25F, System::Drawing::FontStyle::Regular, 
+			dataGridViewCellStyle1->Alignment = System::Windows::Forms::DataGridViewContentAlignment::MiddleCenter;
+			dataGridViewCellStyle1->BackColor = System::Drawing::SystemColors::Control;
+			dataGridViewCellStyle1->Font = (gcnew System::Drawing::Font(L"Microsoft Sans Serif", 8.25F, System::Drawing::FontStyle::Regular, 
 				System::Drawing::GraphicsUnit::Point, static_cast<System::Byte>(204)));
-			dataGridViewCellStyle3->ForeColor = System::Drawing::SystemColors::WindowText;
-			dataGridViewCellStyle3->SelectionBackColor = System::Drawing::SystemColors::Highlight;
-			dataGridViewCellStyle3->SelectionForeColor = System::Drawing::SystemColors::HighlightText;
-			dataGridViewCellStyle3->WrapMode = System::Windows::Forms::DataGridViewTriState::True;
-			this->dataGridView1->ColumnHeadersDefaultCellStyle = dataGridViewCellStyle3;
+			dataGridViewCellStyle1->ForeColor = System::Drawing::SystemColors::WindowText;
+			dataGridViewCellStyle1->SelectionBackColor = System::Drawing::SystemColors::Highlight;
+			dataGridViewCellStyle1->SelectionForeColor = System::Drawing::SystemColors::HighlightText;
+			dataGridViewCellStyle1->WrapMode = System::Windows::Forms::DataGridViewTriState::True;
+			this->dataGridView1->ColumnHeadersDefaultCellStyle = dataGridViewCellStyle1;
 			this->dataGridView1->ColumnHeadersHeightSizeMode = System::Windows::Forms::DataGridViewColumnHeadersHeightSizeMode::AutoSize;
 			this->dataGridView1->Columns->AddRange(gcnew cli::array< System::Windows::Forms::DataGridViewColumn^  >(6) {this->Barcode, 
 				this->Count, this->date, this->status, this->whois, this->comm});
-			dataGridViewCellStyle4->Alignment = System::Windows::Forms::DataGridViewContentAlignment::MiddleCenter;
-			dataGridViewCellStyle4->BackColor = System::Drawing::SystemColors::Window;
-			dataGridViewCellStyle4->Font = (gcnew System::Drawing::Font(L"Microsoft Sans Serif", 8.25F, System::Drawing::FontStyle::Regular, 
+			dataGridViewCellStyle2->Alignment = System::Windows::Forms::DataGridViewContentAlignment::MiddleCenter;
+			dataGridViewCellStyle2->BackColor = System::Drawing::SystemColors::Window;
+			dataGridViewCellStyle2->Font = (gcnew System::Drawing::Font(L"Microsoft Sans Serif", 8.25F, System::Drawing::FontStyle::Regular, 
 				System::Drawing::GraphicsUnit::Point, static_cast<System::Byte>(204)));
-			dataGridViewCellStyle4->ForeColor = System::Drawing::SystemColors::ControlText;
-			dataGridViewCellStyle4->SelectionBackColor = System::Drawing::Color::DodgerBlue;
-			dataGridViewCellStyle4->SelectionForeColor = System::Drawing::Color::Black;
-			dataGridViewCellStyle4->WrapMode = System::Windows::Forms::DataGridViewTriState::False;
-			this->dataGridView1->DefaultCellStyle = dataGridViewCellStyle4;
+			dataGridViewCellStyle2->ForeColor = System::Drawing::SystemColors::ControlText;
+			dataGridViewCellStyle2->SelectionBackColor = System::Drawing::Color::DodgerBlue;
+			dataGridViewCellStyle2->SelectionForeColor = System::Drawing::Color::Black;
+			dataGridViewCellStyle2->WrapMode = System::Windows::Forms::DataGridViewTriState::False;
+			this->dataGridView1->DefaultCellStyle = dataGridViewCellStyle2;
 			this->dataGridView1->GridColor = System::Drawing::Color::Maroon;
 			this->dataGridView1->Location = System::Drawing::Point(-1, -1);
 			this->dataGridView1->Name = L"dataGridView1";
@@ -322,6 +322,7 @@ namespace Action {
 			this->dataGridView1->Size = System::Drawing::Size(513, 307);
 			this->dataGridView1->TabIndex = 0;
 			this->dataGridView1->CellClick += gcnew System::Windows::Forms::DataGridViewCellEventHandler(this, &Form4::dataGridView1_CellClick);
+			this->dataGridView1->RowsAdded += gcnew System::Windows::Forms::DataGridViewRowsAddedEventHandler(this, &Form4::dataGridView1_RowsAdded);
 			// 
 			// Barcode
 			// 
@@ -330,6 +331,7 @@ namespace Action {
 			this->Barcode->Name = L"Barcode";
 			this->Barcode->ReadOnly = true;
 			this->Barcode->Resizable = System::Windows::Forms::DataGridViewTriState::False;
+			this->Barcode->Width = 90;
 			// 
 			// Count
 			// 
@@ -338,7 +340,7 @@ namespace Action {
 			this->Count->Name = L"Count";
 			this->Count->ReadOnly = true;
 			this->Count->Resizable = System::Windows::Forms::DataGridViewTriState::False;
-			this->Count->Width = 65;
+			this->Count->Width = 70;
 			// 
 			// date
 			// 
@@ -346,7 +348,8 @@ namespace Action {
 			this->date->MaxInputLength = 8;
 			this->date->Name = L"date";
 			this->date->ReadOnly = true;
-			this->date->Width = 110;
+			this->date->Resizable = System::Windows::Forms::DataGridViewTriState::False;
+			this->date->Width = 75;
 			// 
 			// status
 			// 
@@ -355,8 +358,7 @@ namespace Action {
 			this->status->Name = L"status";
 			this->status->ReadOnly = true;
 			this->status->Resizable = System::Windows::Forms::DataGridViewTriState::False;
-			this->status->SortMode = System::Windows::Forms::DataGridViewColumnSortMode::Programmatic;
-			this->status->Width = 65;
+			this->status->Width = 95;
 			// 
 			// whois
 			// 
@@ -364,6 +366,7 @@ namespace Action {
 			this->whois->MaxInputLength = 15;
 			this->whois->Name = L"whois";
 			this->whois->ReadOnly = true;
+			this->whois->Resizable = System::Windows::Forms::DataGridViewTriState::False;
 			this->whois->Width = 85;
 			// 
 			// comm
@@ -374,7 +377,7 @@ namespace Action {
 			this->comm->Resizable = System::Windows::Forms::DataGridViewTriState::False;
 			this->comm->Text = L"Удалить";
 			this->comm->UseColumnTextForButtonValue = true;
-			this->comm->Width = 84;
+			this->comm->Width = 95;
 			// 
 			// name_label
 			// 
@@ -445,6 +448,7 @@ namespace Action {
 			// 
 			this->exe_label->AutoEllipsis = true;
 			this->exe_label->AutoSize = true;
+			this->exe_label->BackColor = System::Drawing::Color::Transparent;
 			this->exe_label->Font = (gcnew System::Drawing::Font(L"Microsoft Sans Serif", 9.75F, System::Drawing::FontStyle::Regular, System::Drawing::GraphicsUnit::Point, 
 				static_cast<System::Byte>(204)));
 			this->exe_label->ForeColor = System::Drawing::Color::DodgerBlue;
@@ -511,6 +515,7 @@ namespace Action {
 			this->BackgroundImageLayout = System::Windows::Forms::ImageLayout::Stretch;
 			this->ClientSize = System::Drawing::Size(719, 424);
 			this->Controls->Add(this->hide_button);
+			this->Controls->Add(this->insert_turn_panel);
 			this->Controls->Add(this->check_button);
 			this->Controls->Add(this->list_panel);
 			this->Controls->Add(this->exe_label);
@@ -519,7 +524,6 @@ namespace Action {
 			this->Controls->Add(this->back_button);
 			this->Controls->Add(this->list_button);
 			this->Controls->Add(this->add_turn_button);
-			this->Controls->Add(this->insert_turn_panel);
 			this->DoubleBuffered = true;
 			this->FormBorderStyle = System::Windows::Forms::FormBorderStyle::None;
 			this->Icon = (cli::safe_cast<System::Drawing::Icon^  >(resources->GetObject(L"$this.Icon")));
@@ -664,6 +668,7 @@ private: System::Void bar_textbox_KeyDown(System::Object^  sender, System::Windo
 private: System::Void timer_msg_Tick(System::Object^  sender, System::EventArgs^  e) {
 			 timer_msg->Enabled = false;
 			 msg_label->Text = "";
+			 msg_label->ForeColor = Color::DodgerBlue;
 
 		 }
 private: System::Void timer_exe_Tick(System::Object^  sender, System::EventArgs^  e) {
@@ -846,6 +851,32 @@ private: System::Void check_button_Leave(System::Object^  sender, System::EventA
 
 			 check_button->Font = (gcnew System::Drawing::Font(L"Microsoft Sans Serif", 9.75F, System::Drawing::FontStyle::Regular, System::Drawing::GraphicsUnit::Point, 
 				 static_cast<System::Byte>(204)));
+		 }
+private: System::Void dataGridView1_RowsAdded(System::Object^  sender, System::Windows::Forms::DataGridViewRowsAddedEventArgs^  e)
+		 {
+			 Int32 val;
+
+			 val = Convert::ToInt32(this->dataGridView1->Rows[e->RowIndex]->Cells[3]->Value);
+
+			 switch (val)
+			 {
+			 case 0:
+				 dataGridView1->Rows[e->RowIndex]->Cells["status"]->Style->ForeColor = Color::Brown;
+				 dataGridView1->Rows[e->RowIndex]->Cells["status"]->Value = "Неактивен";
+				 break;
+			 case 1:
+				 dataGridView1->Rows[e->RowIndex]->Cells["status"]->Style->ForeColor = Color::DodgerBlue;
+				 dataGridView1->Rows[e->RowIndex]->Cells["status"]->Value = "В очереди";
+				 break;
+			 case 2:
+				  dataGridView1->Rows[e->RowIndex]->Cells["status"]->Style->ForeColor = Color::Red;
+				   dataGridView1->Rows[e->RowIndex]->Cells["status"]->Value = "Продано";
+				 break;
+			 case 3:
+				 dataGridView1->Rows[e->RowIndex]->Cells["status"]->Style->ForeColor = Color::Green;
+				 dataGridView1->Rows[e->RowIndex]->Cells["status"]->Value = "Подтверждено";
+				 break;
+			 }
 		 }
 };
 }
