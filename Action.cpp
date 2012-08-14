@@ -3,6 +3,9 @@
 #include "Form3.h"
 #include <windows.h>
 
+int xOffset1, yOffset1;
+bool isMouseDown1 = false;
+
 using namespace Action;
 using namespace System::IO;
 using namespace System::Runtime::InteropServices;
@@ -245,8 +248,7 @@ Void Form1::bar_box_KeyDown_1(System::Object^  sender, System::Windows::Forms::K
 
 	if (e->KeyCode == Keys::Escape)
 	{
-		clean_button->PerformClick();
-		bar_box->Focus();
+		exit_button->PerformClick();
 	}
 }
 
@@ -464,4 +466,30 @@ Boolean Form1::mysqlcheck()
 	}
 
 	return par;
+}
+
+Void Form1::Form1_MouseDown(System::Object^  sender, System::Windows::Forms::MouseEventArgs^  e)
+{
+	if (e->Button == Windows::Forms::MouseButtons::Left)
+	{
+		xOffset1 = - e->X - SystemInformation::FrameBorderSize.Width;
+		yOffset1 = - e->Y - SystemInformation::FrameBorderSize.Height;
+		mouseOffset = System::Drawing::Point(xOffset1, yOffset1);
+		isMouseDown1 = true;
+	}
+}
+
+Void Form1::Form1_MouseMove(System::Object^  sender, System::Windows::Forms::MouseEventArgs^  e)
+{
+	if(isMouseDown1)
+	{
+		Point mousePos = Control::MousePosition;
+		mousePos.Offset(mouseOffset.X, mouseOffset.Y);
+		Location = mousePos;
+	}
+}
+
+Void Form1::Form1_MouseUp(System::Object^  sender, System::Windows::Forms::MouseEventArgs^  e)
+{
+	isMouseDown1 = false;
 }
