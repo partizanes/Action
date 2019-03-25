@@ -113,7 +113,7 @@ Void Form4::turn_insert_query()
 	GetPrivateProfileString("SETTINGS", "srv_local","192.168.1.11",buf,sizeof(buf),Form1::SystemStringToChar(Environment::CurrentDirectory+"\\config.ini"));
 
 	String^ connStr = String::Format("server={0};uid={1};pwd={2};database={3};",
-		Form1::CharToSystemString(buf), "root", "***REMOVED***", "action");
+		Form1::CharToSystemString(buf), "", "", "action");
 
 	conn = gcnew MySqlConnection(connStr);
 
@@ -189,7 +189,7 @@ Void Form4::load_list_panel()
 	GetPrivateProfileString("SETTINGS", "srv_local","192.168.1.11",buf,sizeof(buf),Form1::SystemStringToChar(Environment::CurrentDirectory+"\\config.ini"));
 
 	String^ connStr = String::Format("server={0};uid={1};pwd={2};database={3};",
-		Form1::CharToSystemString(buf), "root", "***REMOVED***", "action");
+		Form1::CharToSystemString(buf), "", "", "action");
 
 	conn = gcnew MySqlConnection(connStr);
 
@@ -234,7 +234,7 @@ Void Form4::query_delete(String^ val)
 	GetPrivateProfileString("SETTINGS", "srv_local","192.168.1.11",buf,sizeof(buf),Form1::SystemStringToChar(Environment::CurrentDirectory+"\\config.ini"));
 
 	String^ connStr = String::Format("server={0};uid={1};pwd={2};database={3};",
-		Form1::CharToSystemString(buf), "root", "***REMOVED***", "action");
+		Form1::CharToSystemString(buf), "", "", "action");
 
 	conn = gcnew MySqlConnection(connStr);
 
@@ -321,7 +321,7 @@ Void Form4::check_turn_circle()
 	GetPrivateProfileString("SETTINGS", "srv_local","192.168.1.11",buf,sizeof(buf),Form1::SystemStringToChar(Environment::CurrentDirectory+"\\config.ini"));
 
 	String^ connStr = String::Format("server={0};uid={1};pwd={2};database={3};",
-		Form1::CharToSystemString(buf), "root", "***REMOVED***", "action");
+		Form1::CharToSystemString(buf), "", "", "action");
 
 	conn = gcnew MySqlConnection(connStr);
 
