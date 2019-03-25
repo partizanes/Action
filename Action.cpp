@@ -69,7 +69,7 @@ Void Form1::send_button_Click(System::Object^  sender, System::EventArgs^  e)
     GetPrivateProfileString("SETTINGS", "srv_local","192.168.1.11",buf,sizeof(buf),SystemStringToChar(Environment::CurrentDirectory+"\\config.ini"));
 
     String^ connStr = String::Format("server={0};uid={1};pwd={2};database={3};",
-    CharToSystemString(buf), "root", "***REMOVED***", "action");
+    CharToSystemString(buf), "", "", "action");
 
  	conn = gcnew MySqlConnection(connStr);
  
